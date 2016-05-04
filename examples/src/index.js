@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom'
 import { Provider, connect } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { compose } from 'ramda'
+import { Router, Route, browserHistory, Link } from 'react-router'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
 
 const reducer = combineReducers({
   elm: elmReducer
+, routing: routerReducer
 })
 
 
-const elmStore = Elm.worker(Elm.Store, {
+const elmStore = window.Elm.worker(window.Elm.Store, {
   increment: null,
   asyncIncrement: null,
   decrement: null,
@@ -42,8 +45,39 @@ const App = connect(
     );
 });
 
+const About = connect(
+    ({elm}) => ({ value: elm.value, count: elm.count })
+  )
+  (function({value = 0, count = 1}) {
+    return (
+      <div>
+        <h1>State</h1>
+        <span>Value: {value}</span>
+        <span>Count: {count}</span>
+      </div>
+    );
+});
+
+const Main = ({children}) => {
+    return (
+      <div>
+        <h1>State</h1>
+        <Link to='/app'>App</Link>
+        <Link to='/about'>About</Link>
+        <div>{children}</div>
+      </div>
+    );
+};
+
+const history = syncHistoryWithStore(browserHistory, store)
+
 ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <Router history={history}>
+        <Route path="/" component={Main}>
+          <Route path="app" component={App}/>
+          <Route path="about" component={About}/>
+        </Route>
+      </Router>
     </Provider>
     , document.getElementById('app'));

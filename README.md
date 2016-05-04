@@ -24,17 +24,19 @@
 
 The build-process will be simplified soon.
 
+* `npm install`
 * build lib `babel src/index.js -o .` (in root)
 * `cd ./examples`
 * `npm install`
-* `npm run build:dev`
 * `elm-make src/store.elm --output build/elm.js`
-* open build/index.html in a browser
+* `npm run serve`
+* open 127.0.0.1:8080
 
 ## TODO
 
 - [ ] nicer buildprocess
-- [ ] example with react-router-redux and redux-ui
+- [x] example with react-router-redux
+- [ ] example with redux-ui
 - [ ] add recipe to readme
 - [ ] publish middleware
 - [ ] add licence
