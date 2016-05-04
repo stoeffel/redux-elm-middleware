@@ -40,7 +40,9 @@ The build-process will be simplified soon.
 - [x] example with react-router-redux
 - [ ] example with redux-ui
 - [ ] add recipe to readme
-- [ ] publish middleware
+- [ ] cleaner/safer middleware
 - [ ] add licence
 - [ ] greenkeeper
 - [ ] tests
+
+## Feedback and contributons welcome!
