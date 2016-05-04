@@ -26,6 +26,7 @@ The build-process will be simplified soon.
 
 * build lib `babel src/index.js -o .` (in root)
 * `cd ./examples`
+* `npm install`
 * `npm run build:dev`
 * `elm-make src/store.elm --output build/elm.js`
 * open build/index.html in a browser
