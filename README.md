@@ -4,6 +4,60 @@
 
 > Elm middleware for redux :sparkles:
 
+## Usage
+
+```js
+import createElmMiddleware from 'redux-elm-middleware'
+import { reducer as elmReducer } from 'redux-elm-middleware'
+
+const reducer = combineReducers({
+  elm: elmReducer
+, routing: routerReducer
+})
+
+const elmStore = window.Elm.worker(window.Elm.Store, {
+  decrement: null
+});
+
+const { run, elmMiddleware } = createElmMiddleware(elmStore)
+const store = createStore(reducer, {}, compose(
+  applyMiddleware(elmMiddleware),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+));
+run(store)
+
+```
+
+```elm
+port decrement : Signal (Maybe ())
+
+events =
+  Signal.mergeMany
+    [ Signal.map (always Decrement) decrement
+    ]
+
+
+app =
+  StartApp.start
+    { init = init 0
+    , update = update
+    , view = view
+    , inputs =
+        [ events
+        ]
+    }
+
+
+-- OUTBOUND PORTS
+-- out is needed for redux-elm-middleware
+
+
+port out : Signal Model
+port out =
+  app.model
+
+```
+
 ## Motivation
 
 * write bulletproof businesslogic
