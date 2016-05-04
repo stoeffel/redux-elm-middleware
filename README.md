@@ -33,7 +33,7 @@ The build-process will be simplified soon.
 
 ## TODO
 
-- [] nicer buildprocess
-- [] example with react-router-redux and redux-ui
-- [] add recipe to readme
-- [] publish middleware
+- [ ] nicer buildprocess
+- [ ] example with react-router-redux and redux-ui
+- [ ] add recipe to readme
+- [ ] publish middleware
