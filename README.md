@@ -37,3 +37,6 @@ The build-process will be simplified soon.
 - [ ] example with react-router-redux and redux-ui
 - [ ] add recipe to readme
 - [ ] publish middleware
+- [ ] add licence
+- [ ] greenkeeper
+- [ ] tests
