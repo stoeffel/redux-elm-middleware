@@ -30,3 +30,10 @@ The build-process will be simplified soon.
 * `npm run build:dev`
 * `elm-make src/store.elm --output build/elm.js`
 * open build/index.html in a browser
+
+## TODO
+
+- [] nicer buildprocess
+- [] example with react-router-redux and redux-ui
+- [] add recipe to readme
+- [] publish middleware
