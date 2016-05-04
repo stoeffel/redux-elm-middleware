@@ -44,5 +44,6 @@ The build-process will be simplified soon.
 - [ ] add licence
 - [ ] greenkeeper
 - [ ] tests
+- [ ] cleanup code and example
 
 ## Feedback and contributons welcome!
