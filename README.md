@@ -6,6 +6,8 @@
 
 ## Usage
 
+Check out [`index.js`](examples/src/index.js) and [`store.elm`](examples/src/store.elm) for now.
+
 ```js
 import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
