@@ -30,16 +30,18 @@ run(store)
 
 window.red = store
 
+const Button = ({children, ...props}) => <a className="waves-effect waves-light btn-large" {...props}>{children}</a>
+
 const Counter = connect(
     ({elm}) => ({ value: elm.value, count: elm.count })
   )
   (function({dispatch, value = 0, count = 1}) {
     return (
       <div>
-        <button onClick={() => dispatch({type: 'asyncIncrement'})}>5 sec +</button>
-        <button onClick={() => dispatch({type: 'increment'})}>+</button>
-        <span>{value}</span>
-        <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+        <Button onClick={() => dispatch({type: 'asyncIncrement'})}>5 sec +</Button>
+        <Button onClick={() => dispatch({type: 'increment'})}>+</Button>
+        <h2>{value}</h2>
+        <Button onClick={() => dispatch({type: 'decrement'})}>-</Button>
         <input type='number' value={count} onChange={({target}) => dispatch({type: 'changeCount', payload: Number(target.value)})} />
       </div>
     );
@@ -59,10 +61,24 @@ const TickTock = connect(
 const Main = ({children}) => {
     return (
       <div>
-        <h1>State</h1>
-        <Link to='/counter'>Counter</Link>
-        <Link to='/ticktock'>TickTock</Link>
-        <div>{children}</div>
+        <nav>
+          <div className="nav-wrapper">
+            <a href="#" className="brand-logo">Redux-Elm-Middleware</a>
+            <ul id="nav-mobile" className="right">
+              <li><Link to='/counter'>Counter</Link></li>
+              <li><Link to='/ticktock'>TickTock</Link></li>
+            </ul>
+          </div>
+        </nav>
+        <div className="row">
+          <div className="col s12 m6">
+            <div className="card blue-grey darken-1">
+              <div className="card-content white-text">
+              {children}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
 };
