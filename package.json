@@ -1,10 +1,15 @@
 {
-  "name": "elm-redux",
+  "name": "redux-elm-middleware",
   "version": "0.0.0",
-  "description": "## TOC",
+  "description": "Elm middleware for redux",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test:unit && npm run test:lint"
+    "test": "npm run test:unit && npm run test:lint",
+    "build": "babel src --out-dir .",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "release:major": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment major",
+    "release:minor": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment minor",
+    "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch"
   },
   "babel": {
     "presets": [
@@ -29,16 +34,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stoeffel/react-redux-bp.git"
+    "url": "git+https://github.com/stoeffel/redux-elm-middleware.git"
   },
   "author": "Christoph Hermann",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stoeffel/react-redux-bp/issues"
+    "url": "https://github.com/stoeffel/redux-elm-middleware/issues"
   },
-  "homepage": "https://github.com/stoeffel/react-redux-bp#readme",
-  "dependencies": {
-  },
+  "homepage": "https://github.com/stoeffel/redux-elm-middleware#readme",
+  "dependencies": {},
   "devDependencies": {
     "ava": "^0.14.0",
     "babel-core": "^6.7.7",
@@ -49,7 +53,14 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
+    "codecov": "^1.0.1",
+    "nyc": "^6.4.2",
     "standard": "^6.0.8",
-    "standard-format": "^2.1.1"
-  }
+    "standard-format": "^2.1.1",
+    "xyz": "^0.5.0"
+  },
+  "files": [
+    "index.js",
+    "src/index.js"
+  ]
 }
