@@ -14,17 +14,17 @@ port decrement : Signal (Maybe ())
 port changeCount : Signal Payload
 clock : Signal Time
 clock =
-  every (2 * second)
+    every second
 
 
 events =
-  Signal.mergeMany
-    [ Signal.map (always Decrement) decrement
-    , Signal.map (always Increment) increment
-    , Signal.map (always AsyncIncrement) asyncIncrement
-    , Signal.map ChangeCount changeCount
-    , Signal.map (always Decrement) clock
-    ]
+    Signal.mergeMany
+        [ Signal.map (always Decrement) decrement
+        , Signal.map (always Increment) increment
+        , Signal.map (always AsyncIncrement) asyncIncrement
+        , Signal.map ChangeCount changeCount
+        , Signal.map (always TickTock) clock
+        ]
 
 
 
@@ -33,17 +33,18 @@ events =
 
 init : Int -> ( Model, Effects Action )
 init value =
-  ( { value = value, count = 1 }, Effects.none )
+    ( { value = value, count = 1, tickTock = "TICK" }, Effects.none )
 
 
 type alias Model =
-  { value : Int
-  , count : Int
-  }
+    { value : Int
+    , count : Int
+    , tickTock : String
+    }
 
 
 type alias Payload =
-  Int
+    Int
 
 
 
@@ -51,11 +52,12 @@ type alias Payload =
 
 
 type Action
-  = NoOp
-  | Increment
-  | Decrement
-  | AsyncIncrement
-  | ChangeCount Payload
+    = NoOp
+    | TickTock
+    | Increment
+    | Decrement
+    | AsyncIncrement
+    | ChangeCount Payload
 
 
 
@@ -64,26 +66,38 @@ type Action
 
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
-  case action of
-    Increment ->
-      ( { model | value = model.value + model.count }, Effects.none )
+    case action of
+        Increment ->
+            ( { model | value = model.value + model.count }, Effects.none )
 
-    Decrement ->
-      ( { model | value = model.value - model.count }, Effects.none )
+        Decrement ->
+            ( { model | value = model.value - model.count }, Effects.none )
 
-    AsyncIncrement ->
-      ( model, Effects.task (asyncIncTask model.count) )
+        AsyncIncrement ->
+            ( model, Effects.task (asyncIncTask model.count) )
 
-    ChangeCount payload ->
-      ( { model | count = payload }, Effects.none )
+        ChangeCount payload ->
+            ( { model | count = payload }, Effects.none )
 
-    NoOp ->
-      ( model, Effects.none )
+        TickTock ->
+            (case model.tickTock of
+                "TICK" ->
+                    ( { model | tickTock = "TOCK" }, Effects.none )
+
+                "TOCK" ->
+                    ( { model | tickTock = "TICK" }, Effects.none )
+
+                _ ->
+                    ( model, Effects.none )
+            )
+
+        NoOp ->
+            ( model, Effects.none )
 
 
 asyncIncTask payload =
-  Task.sleep (5 * Time.second)
-    `andThen` (\_ -> Task.succeed Increment)
+    Task.sleep (5 * Time.second)
+        `andThen` (\_ -> Task.succeed Increment)
 
 
 
@@ -92,18 +106,18 @@ asyncIncTask payload =
 
 
 view address model =
-  div [] []
+    div [] []
 
 
 app =
-  StartApp.start
-    { init = init 0
-    , update = update
-    , view = view
-    , inputs =
-        [ events
-        ]
-    }
+    StartApp.start
+        { init = init 0
+        , update = update
+        , view = view
+        , inputs =
+            [ events
+            ]
+        }
 
 
 
@@ -113,9 +127,9 @@ app =
 
 port out : Signal Model
 port out =
-  app.model
+    app.model
 
 
 port tasks : Signal (Task.Task Never ())
 port tasks =
-  app.tasks
+    app.tasks

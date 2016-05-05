@@ -30,7 +30,7 @@ run(store)
 
 window.red = store
 
-const App = connect(
+const Counter = connect(
     ({elm}) => ({ value: elm.value, count: elm.count })
   )
   (function({dispatch, value = 0, count = 1}) {
@@ -45,15 +45,13 @@ const App = connect(
     );
 });
 
-const About = connect(
-    ({elm}) => ({ value: elm.value, count: elm.count })
+const TickTock = connect(
+    ({elm}) => ({ tickTock: elm.tickTock })
   )
-  (function({value = 0, count = 1}) {
+  (function({tickTock}) {
     return (
       <div>
-        <h1>State</h1>
-        <span>Value: {value}</span>
-        <span>Count: {count}</span>
+        <h1>{tickTock}</h1>
       </div>
     );
 });
@@ -62,8 +60,8 @@ const Main = ({children}) => {
     return (
       <div>
         <h1>State</h1>
-        <Link to='/app'>App</Link>
-        <Link to='/about'>About</Link>
+        <Link to='/counter'>Counter</Link>
+        <Link to='/ticktock'>TickTock</Link>
         <div>{children}</div>
       </div>
     );
@@ -75,8 +73,8 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={history}>
         <Route path="/" component={Main}>
-          <Route path="app" component={App}/>
-          <Route path="about" component={About}/>
+          <Route path="counter" component={Counter}/>
+          <Route path="ticktock" component={TickTock}/>
         </Route>
       </Router>
     </Provider>
