@@ -4,3 +4,4 @@ elm-stuff/
 repl-temp-*
 node_modules
 index.js
+npm-debug.log
