@@ -1,4 +1,4 @@
-module Reducer (..) where
+module Store (..) where
 
 import Effects exposing (Effects, Never)
 import Task exposing (..)
@@ -17,14 +17,14 @@ clock =
     every second
 
 
-events =
-    Signal.mergeMany
-        [ Signal.map (always Decrement) decrement
-        , Signal.map (always Increment) increment
-        , Signal.map (always AsyncIncrement) asyncIncrement
-        , Signal.map ChangeCount changeCount
-        , Signal.map (always TickTock) clock
-        ]
+inputs : List (Signal Action)
+inputs =
+    [ Signal.map (always Decrement) decrement
+    , Signal.map (always Increment) increment
+    , Signal.map (always AsyncIncrement) asyncIncrement
+    , Signal.map ChangeCount changeCount
+    , Signal.map (always TickTock) clock
+    ]
 
 
 
@@ -114,9 +114,7 @@ app =
         { init = init 0
         , update = update
         , view = view
-        , inputs =
-            [ events
-            ]
+        , inputs = inputs
         }
 
 

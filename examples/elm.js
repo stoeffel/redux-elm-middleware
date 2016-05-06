@@ -10453,17 +10453,17 @@ Elm.Store.make = function (_elm) {
       return v === null ? Elm.Maybe.make(_elm).Nothing : Elm.Maybe.make(_elm).Just(typeof v === "object" && v instanceof Array ? {ctor: "_Tuple0"} : _U.badPort("an array",
       v));
    });
-   var events = $Signal.mergeMany(_U.list([A2($Signal.map,$Basics.always(Decrement),decrement)
-                                          ,A2($Signal.map,$Basics.always(Increment),increment)
-                                          ,A2($Signal.map,$Basics.always(AsyncIncrement),asyncIncrement)
-                                          ,A2($Signal.map,ChangeCount,changeCount)
-                                          ,A2($Signal.map,$Basics.always(TickTock),clock)]));
-   var app = $StartApp.start({init: init(0),update: update,view: view,inputs: _U.list([events])});
+   var inputs = _U.list([A2($Signal.map,$Basics.always(Decrement),decrement)
+                        ,A2($Signal.map,$Basics.always(Increment),increment)
+                        ,A2($Signal.map,$Basics.always(AsyncIncrement),asyncIncrement)
+                        ,A2($Signal.map,ChangeCount,changeCount)
+                        ,A2($Signal.map,$Basics.always(TickTock),clock)]);
+   var app = $StartApp.start({init: init(0),update: update,view: view,inputs: inputs});
    var out = Elm.Native.Port.make(_elm).outboundSignal("out",function (v) {    return {value: v.value,count: v.count,tickTock: v.tickTock};},app.model);
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",app.tasks);
    return _elm.Store.values = {_op: _op
                               ,clock: clock
-                              ,events: events
+                              ,inputs: inputs
                               ,init: init
                               ,Model: Model
                               ,NoOp: NoOp

@@ -6,7 +6,7 @@
 
 ## Usage
 
-Check out [`index.js`](examples/src/index.js) and [`store.elm`](examples/src/store.elm) for now.
+Check out [`index.js`](examples/src/index.js) and [`Reducer.elm`](examples/src/Reducer.elm) for now.
 
 ```js
 import createElmMiddleware from 'redux-elm-middleware'
@@ -17,11 +17,11 @@ const reducer = combineReducers({
 , routing: routerReducer
 })
 
-const elmStore = window.Elm.worker(window.Elm.Store, {
+const elmReducer = window.Elm.worker(window.Elm.Reducer, {
   decrement: null
 });
 
-const { run, elmMiddleware } = createElmMiddleware(elmStore)
+const { run, elmMiddleware } = createElmMiddleware(elmReducer)
 const store = createStore(reducer, {}, compose(
   applyMiddleware(elmMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
@@ -33,8 +33,7 @@ run(store)
 ```elm
 port decrement : Signal (Maybe ())
 
-events =
-  Signal.mergeMany
+inputs =
     [ Signal.map (always Decrement) decrement
     ]
 
@@ -44,9 +43,7 @@ app =
     { init = init 0
     , update = update
     , view = view
-    , inputs =
-        [ events
-        ]
+    , inputs = inputs
     }
 
 
@@ -86,7 +83,7 @@ The build-process will be simplified soon.
 * build lib `babel src/index.js -o .` (in root)
 * `cd ./examples`
 * `npm install`
-* `elm-make src/store.elm --output build/elm.js`
+* `elm-make src/Reducer.elm --output build/elm.js`
 * `npm run serve`
 * open 127.0.0.1:8080
 
