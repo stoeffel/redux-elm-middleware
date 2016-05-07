@@ -7,3 +7,4 @@ index.js
 npm-debug.log
 coverage
 .nyc_output
+coverage.lcov
