@@ -2,7 +2,7 @@ const ELM = '@@elm'
 
 const createElmMiddleware = (elm) => {
   const elmMiddleware = ({dispatch}) => next => action => {
-      if (elm.ports[action.type])
+      if (elm.ports && elm.ports[action.type])
         elm.ports[action.type].send(action.payload || null)
       next(action)
     }
