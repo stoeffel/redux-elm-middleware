@@ -7,6 +7,7 @@
 [![Build Status](https://travis-ci.org/stoeffel/redux-elm-middleware.svg?branch=master)](https://travis-ci.org/stoeffel/redux-elm-middleware)
 [![codecov](https://codecov.io/gh/stoeffel/redux-elm-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/stoeffel/redux-elm-middleware)
 [![Dependency Status](https://david-dm.org/stoeffel/redux-elm-middleware.svg)](https://david-dm.org/stoeffel/redux-elm-middleware)
+[![npm version](https://badge.fury.io/js/redux-elm-middleware.svg)](https://badge.fury.io/js/redux-elm-middleware)
 
 ## Usage
 
