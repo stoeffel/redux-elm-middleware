@@ -1,4 +1,4 @@
-const ELM = '@@elm'
+export const ELM = '@@elm'
 
 const createElmMiddleware = (elm) => {
   const elmMiddleware = ({dispatch}) => next => action => {

@@ -4,6 +4,9 @@
 
 > Elm middleware for redux :sparkles:
 
+[![Build Status](https://travis-ci.org/stoeffel/redux-elm-middleware.svg?branch=master)](https://travis-ci.org/stoeffel/redux-elm-middleware)
+
+
 ## Usage
 
 Check out [`index.js`](examples/src/index.js) and [`Reducer.elm`](examples/src/Reducer.elm) for now.
