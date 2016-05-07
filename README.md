@@ -1,5 +1,3 @@
-# Experimental !!! WIP !!!
-
 # redux-elm-middleware
 
 > Elm middleware for redux :sparkles:
