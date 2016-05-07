@@ -92,11 +92,11 @@ The build-process will be simplified soon.
 
 ## TODO
 
-- [ ] nicer buildprocess
+- [ ] nicer buildprocess for example
 - [x] example with react-router-redux
-- [ ] example with redux-ui
-- [ ] add recipe to readme
+- [ ] add recipes to readme
 - [ ] cleaner/safer middleware
+- [ ] add warning if no out port present
 - [x] add licence
 - [x] greenkeeper
 - [x] tests
