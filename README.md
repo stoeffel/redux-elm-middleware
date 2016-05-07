@@ -97,9 +97,9 @@ The build-process will be simplified soon.
 - [ ] example with redux-ui
 - [ ] add recipe to readme
 - [ ] cleaner/safer middleware
-- [ ] add licence
-- [ ] greenkeeper
-- [ ] tests
+- [x] add licence
+- [x] greenkeeper
+- [x] tests
 - [ ] cleanup code and example
 
 ## Feedback and contributons welcome!
