@@ -16,7 +16,7 @@ module.exports = {
   resolve: {
     // add alias for application code directory
     alias:{
-      'redux-elm-middleware': path.resolve( __dirname, '..')
+      'redux-elm-middleware': path.resolve( __dirname, '..', 'src')
     },
     extensions: [ '', '.js' ]
   },

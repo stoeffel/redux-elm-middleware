@@ -8,5 +8,5 @@ npm-debug.log
 coverage
 .nyc_output
 coverage.lcov
-example/build
-!example/build/index.html
+examples/build
+!examples/build/index.html
