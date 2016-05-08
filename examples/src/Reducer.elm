@@ -96,7 +96,7 @@ update action model =
 
 
 asyncIncTask payload =
-    Task.sleep (5 * Time.second)
+    Task.sleep (2 * Time.second)
         `andThen` (\_ -> Task.succeed Increment)
 
 

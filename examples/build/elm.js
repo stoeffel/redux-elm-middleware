@@ -10410,7 +10410,7 @@ Elm.Store.make = function (_elm) {
    var AsyncIncrement = {ctor: "AsyncIncrement"};
    var Decrement = {ctor: "Decrement"};
    var Increment = {ctor: "Increment"};
-   var asyncIncTask = function (payload) {    return A2($Task.andThen,$Task.sleep(5 * $Time.second),function (_p0) {    return $Task.succeed(Increment);});};
+   var asyncIncTask = function (payload) {    return A2($Task.andThen,$Task.sleep(2 * $Time.second),function (_p0) {    return $Task.succeed(Increment);});};
    var update = F2(function (action,model) {
       var _p1 = action;
       switch (_p1.ctor)

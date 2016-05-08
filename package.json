@@ -9,7 +9,10 @@
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "release:major": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment major",
     "release:minor": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment minor",
-    "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch"
+    "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch",
+    "example": "npm-run-all --parallel serve elm",
+    "serve": "cd examples && webpack-dev-server",
+    "elm": "cd examples && elm-live src/Reducer.elm --output build/elm.js"
   },
   "babel": {
     "presets": [
@@ -54,14 +57,26 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
     "codecov": "^1.0.1",
+    "elm": "^0.16.0",
+    "elm-live": "^2.2.1",
     "mocha": "^2.4.5",
+    "npm-run-all": "^1.8.0",
     "nyc": "^6.4.2",
+    "ramda": "^0.21.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
+    "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
+    "redux-actions": "^0.9.1",
     "redux-mock-store": "^1.0.2",
     "redux-test-reducer": "^0.1.0",
     "sinon": "^1.17.4",
     "standard": "^7.0.1",
     "standard-format": "^2.1.1",
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
     "xyz": "^0.5.0"
   },
   "files": [

@@ -80,26 +80,9 @@ port out =
 
 ## running the example
 
-The build-process will be simplified soon.
-
 * `npm install`
-* build lib `babel src/index.js -o .` (in root)
-* `cd ./examples`
-* `npm install`
-* `elm-make src/Reducer.elm --output build/elm.js`
-* `npm run serve`
+* `npm run example`
 * open 127.0.0.1:8080
 
-## TODO
-
-- [ ] nicer buildprocess for example
-- [x] example with react-router-redux
-- [ ] add recipes to readme
-- [ ] cleaner/safer middleware
-- [ ] add warning if no out port present
-- [x] add licence
-- [x] greenkeeper
-- [x] tests
-- [ ] cleanup code and example
 
 ## Feedback and contributons welcome!
