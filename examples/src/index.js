@@ -17,12 +17,7 @@ const reducer = combineReducers({
 })
 
 
-const elmStore = window.Elm.worker(window.Elm.Store, {
-  increment: null,
-  asyncIncrement: null,
-  decrement: null,
-  changeCount: 1
-});
+const elmStore = window.Elm.Reducer.worker();
 
 const { run, elmMiddleware } = createElmMiddleware(elmStore)
 const store = createStore(reducer, {}, compose(
