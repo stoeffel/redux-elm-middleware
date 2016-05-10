@@ -16,8 +16,8 @@ import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
 
 const reducer = combineReducers({
-  elm: elmReducer
-, routing: routerReducer
+  elm: elmReducer,
+  routing: routerReducer
 })
 
 const elmReducer = window.Elm.worker(window.Elm.Reducer, {
