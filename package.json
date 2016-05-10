@@ -58,7 +58,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
     "codecov": "^1.0.1",
-    "elm": "^0.16.0",
+    "elm": "^0.17.0",
     "elm-live": "^2.2.1",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.8.0",
