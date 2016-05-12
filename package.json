@@ -13,7 +13,7 @@
     "example": "npm-run-all --parallel serve elm",
     "serve": "cd examples && webpack-dev-server",
     "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
-    "elm:install": "elm-package install -y"
+    "elm:install": "cd examples && elm-package install -y"
   },
   "babel": {
     "presets": [
