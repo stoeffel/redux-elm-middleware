@@ -6,14 +6,14 @@
   "scripts": {
     "test": "nyc --r html mocha --require babel-core/register",
     "build": "babel src --out-dir .",
-    "postinstall": "cd examples && elm-package install -y",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "release:major": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment major",
     "release:minor": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment minor",
     "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch",
     "example": "npm-run-all --parallel serve elm",
     "serve": "cd examples && webpack-dev-server",
-    "elm": "cd examples && elm-live src/Reducer.elm --output build/elm.js"
+    "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
+    "elm:install": "elm-package install -y"
   },
   "babel": {
     "presets": [
