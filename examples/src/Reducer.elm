@@ -75,33 +75,32 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update action model =
-    Redux.reducer out
-        <| case action of
-            Increment ->
-                ( { model | value = model.value + model.count }, Cmd.none )
+    case action of
+        Increment ->
+            ( { model | value = model.value + model.count }, Cmd.none )
 
-            Decrement ->
-                ( { model | value = model.value - model.count }, Cmd.none )
+        Decrement ->
+            ( { model | value = model.value - model.count }, Cmd.none )
 
-            -- AsyncIncrement ->
-            -- ( model, asyncIncTask model.count )
-            ChangeCount payload ->
-                ( { model | count = payload }, Cmd.none )
+        -- AsyncIncrement ->
+        -- ( model, asyncIncTask model.count )
+        ChangeCount payload ->
+            ( { model | count = payload }, Cmd.none )
 
-            TickTock _ ->
-                (case model.tickTock of
-                    "TICK" ->
-                        ( { model | tickTock = "TOCK" }, Cmd.none )
+        TickTock _ ->
+            (case model.tickTock of
+                "TICK" ->
+                    ( { model | tickTock = "TOCK" }, Cmd.none )
 
-                    "TOCK" ->
-                        ( { model | tickTock = "TICK" }, Cmd.none )
+                "TOCK" ->
+                    ( { model | tickTock = "TICK" }, Cmd.none )
 
-                    _ ->
-                        ( model, Cmd.none )
-                )
+                _ ->
+                    ( model, Cmd.none )
+            )
 
-            NoOp ->
-                ( model, Cmd.none )
+        NoOp ->
+            ( model, Cmd.none )
 
 
 main =
@@ -110,11 +109,3 @@ main =
         , update = update
         , subscriptions = subscriptions
         }
-
-
-
--- OUTBOUND PORTS
--- out is needed for redux-elm-middleware
-
-
-port out : Model -> Cmd msg

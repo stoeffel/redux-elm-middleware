@@ -1,16 +1,18 @@
 {
     "version": "1.0.0",
     "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
+    "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
     "license": "BSD3",
     "source-directories": [
         ".",
-        "../src"
+        "../src",
+        "../src/Native"
     ],
     "exposed-modules": [],
     "dependencies": {
         "elm-lang/core": "4.0.0 <= v < 5.0.0",
         "elm-lang/html": "1.0.0 <= v < 2.0.0"
     },
+    "native-modules": true,
     "elm-version": "0.17.0 <= v < 0.18.0"
 }

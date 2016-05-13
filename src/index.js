@@ -6,7 +6,10 @@ const createElmMiddleware = (elm) => {
         elm.ports[action.type].send(action.payload || null)
       next(action)
     }
-  const run = store => elm.ports.out.subscribe((x) => store.dispatch({type: ELM, payload: x}))
+  const run = store => {
+    window.__REDUX_ELM_STORE__ = store;
+  }
+
 
   return { elmMiddleware, run }
 }

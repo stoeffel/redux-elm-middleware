@@ -26,7 +26,6 @@ const store = createStore(reducer, {}, compose(
 ));
 run(store)
 
-
 const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
