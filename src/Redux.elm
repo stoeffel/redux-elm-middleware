@@ -1,4 +1,4 @@
-port module Redux exposing (program)
+module Redux exposing (program)
 
 {-| Redux elm middleware
 @docs program
