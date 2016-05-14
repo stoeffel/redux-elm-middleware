@@ -25,14 +25,14 @@ program :
     -> Program Never
 program app =
     let
-        reducer : ( model, Cmd msg ) -> ( model, Cmd msg )
-        reducer ( m, c ) =
+        reducer : a -> ( model, Cmd msg ) -> ( model, Cmd msg )
+        reducer action ( m, c ) =
             ( m
-            , Cmd.batch [ c, Native.Redux.dispatch m ]
+            , Cmd.batch [ c, Native.Redux.dispatch action m ]
             )
 
         wrap fn a m =
-            reducer <| fn a m
+            reducer a <| fn a m
     in
         Html.program
             { init = app.init

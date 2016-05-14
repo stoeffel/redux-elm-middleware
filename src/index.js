@@ -17,7 +17,8 @@ const createElmMiddleware = (elm) => {
 export default createElmMiddleware
 
 export const reducer = function(state = {}, action) {
-  if (action.type === ELM) {
+  const [elmAction, type] = action.type.split('/')
+  if (elmAction === ELM) {
     return action.payload
   }
 

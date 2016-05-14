@@ -1,8 +1,8 @@
 var _stoeffel$redux_elm_middleware$Native_Redux = function() {
 
-  function dispatch(payload) {
+  function dispatch(action, payload) {
     window.__REDUX_ELM_STORE__.dispatch({
-      type: '@@elm',
+      type: '@@elm/' + action.ctor,
       payload: payload
     });
     return payload;
@@ -10,6 +10,6 @@ var _stoeffel$redux_elm_middleware$Native_Redux = function() {
 
 
   return {
-    dispatch: dispatch
+    dispatch: F2(dispatch)
   };
 }()

@@ -3,7 +3,7 @@ import sinon from 'sinon'
 import configureStore from 'redux-mock-store';
 import createMiddleware, { ELM } from '../src'
 
-describe('Run', () => {
+describe.skip('Run', () => {
   it('should be a function', () => {
     assert.equal(typeof createMiddleware({}).run, 'function')
   })
