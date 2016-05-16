@@ -10,8 +10,10 @@ import Maybe exposing (Maybe)
 port increment : (Maybe Int -> msg) -> Sub msg
 
 
+port asyncIncrement : (Maybe Int -> msg) -> Sub msg
 
--- port asyncIncrement : (Maybe Int -> msg) -> Sub msg
+
+port asyncDecrement : (Maybe Int -> msg) -> Sub msg
 
 
 port decrement : (Maybe Int -> msg) -> Sub msg
@@ -30,7 +32,8 @@ subscriptions _ =
     Sub.batch
         [ decrement <| always Decrement
         , increment <| always Increment
-          -- , asyncIncrement AsyncIncrement
+        , asyncIncrement <| always AsyncIncrement
+        , asyncDecrement <| always AsyncDecrement
         , changeCount ChangeCount
         , clock
         ]
@@ -65,7 +68,8 @@ type Msg
     | TickTock Time
     | Increment
     | Decrement
-      -- | AsyncIncrement
+    | AsyncIncrement
+    | AsyncDecrement
     | ChangeCount Payload
 
 
@@ -82,8 +86,12 @@ update action model =
         Decrement ->
             ( { model | value = model.value - model.count }, Cmd.none )
 
-        -- AsyncIncrement ->
-        -- ( model, asyncIncTask model.count )
+        AsyncIncrement ->
+            ( model, asyncTask Increment )
+
+        AsyncDecrement ->
+            ( model, asyncTask Decrement )
+
         ChangeCount payload ->
             ( { model | count = payload }, Cmd.none )
 
@@ -101,6 +109,12 @@ update action model =
 
         NoOp ->
             ( model, Cmd.none )
+
+
+asyncTask : Msg -> Cmd Msg
+asyncTask msg =
+    Process.sleep (2 * Time.second)
+        |> Task.perform (always NoOp) (always msg)
 
 
 main =
