@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
+    "summary": "Elm middleware for redux",
     "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
     "license": "BSD3",
     "source-directories": [
