@@ -24,6 +24,13 @@ $ elm package install redux-elm-middleware
 
 ```js
 import createElmMiddleware from 'redux-elm-middleware'
+import { reducer as elmReducer } from 'redux-elm-middleware'
+
+const reducer = combineReducers({
+  elm: elmReducer
+  // ...middlewares
+})
+
 
 // create a worker of your elm reducer
 const elmStore = window.Elm.Reducer.worker();
@@ -41,7 +48,25 @@ const store = createStore(reducer, {}, compose(
 run(store)
 ```
 
-### Createing a Reducer in Elm
+#### Elm root reducer
+
+The root reducer from redux-elm-middleware simply takes all actions from your elm reducers and returns the payload as the next state.
+
+The new model returned in your elm reducers update function is dispatched as a new action to the redux store.
+
+f.e.
+
+```js
+{
+  type: '@@elm/Increment',
+  payload: {
+    counter: 3
+  }
+}
+```
+
+
+### Creating a Reducer in Elm
 
 A reducer in elm looks like a normal [TEA](https://github.com/evancz/elm-architecture-tutorial) module without the view.
 ```elm
