@@ -2,6 +2,8 @@
 
 > Elm middleware for redux :sparkles:
 
+<img src="https://cdn.rawgit.com/stoeffel/redux-elm-middleware/v017/logo/logo.svg" alt="logo" width="250" height="252">
+
 [![Build Status](https://travis-ci.org/stoeffel/redux-elm-middleware.svg?branch=master)](https://travis-ci.org/stoeffel/redux-elm-middleware)
 [![codecov](https://codecov.io/gh/stoeffel/redux-elm-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/stoeffel/redux-elm-middleware)
 [![Dependency Status](https://david-dm.org/stoeffel/redux-elm-middleware.svg)](https://david-dm.org/stoeffel/redux-elm-middleware)
