@@ -1,6 +1,6 @@
 import assert from 'assert'
 import testReducer from 'redux-test-reducer'
-import { ELM, reducer } from '../src'
+import { reducer } from '../src'
 
 describe('Reducer', () => {
   it('should be a function', () => {
@@ -16,7 +16,7 @@ describe('Reducer', () => {
       elm: true
     }
     const action = {
-      type: ELM,
+      type: '@@elm/action',
       payload: {
         elm: true
       }
