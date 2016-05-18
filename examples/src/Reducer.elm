@@ -1,39 +1,51 @@
-module Store (..) where
+port module Reducer exposing (Model, Msg, init, update, subscriptions)
 
-import Effects exposing (Effects, Never)
+import Redux
 import Task exposing (..)
-import Html exposing (div)
+import Process
 import Time exposing (..)
-import Maybe
-import StartApp
+import Maybe exposing (Maybe)
 
 
-port increment : Signal (Maybe ())
-port asyncIncrement : Signal (Maybe ())
-port decrement : Signal (Maybe ())
-port changeCount : Signal Payload
-clock : Signal Time
+port increment : (Maybe Int -> msg) -> Sub msg
+
+
+port asyncIncrement : (Maybe Int -> msg) -> Sub msg
+
+
+port asyncDecrement : (Maybe Int -> msg) -> Sub msg
+
+
+port decrement : (Maybe Int -> msg) -> Sub msg
+
+
+port changeCount : (Payload -> msg) -> Sub msg
+
+
+clock : Sub Msg
 clock =
-    every second
+    Time.every second TickTock
 
 
-inputs : List (Signal Action)
-inputs =
-    [ Signal.map (always Decrement) decrement
-    , Signal.map (always Increment) increment
-    , Signal.map (always AsyncIncrement) asyncIncrement
-    , Signal.map ChangeCount changeCount
-    , Signal.map (always TickTock) clock
-    ]
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.batch
+        [ decrement <| always Decrement
+        , increment <| always Increment
+        , asyncIncrement <| always AsyncIncrement
+        , asyncDecrement <| always AsyncDecrement
+        , changeCount ChangeCount
+        , clock
+        ]
 
 
 
 -- MODEL
 
 
-init : Int -> ( Model, Effects Action )
+init : Int -> ( Model, Cmd Msg )
 init value =
-    ( { value = value, count = 1, tickTock = "TICK" }, Effects.none )
+    ( { value = value, count = 1, tickTock = "TICK" }, Cmd.none )
 
 
 type alias Model =
@@ -51,12 +63,13 @@ type alias Payload =
 -- ACTIONS
 
 
-type Action
+type Msg
     = NoOp
-    | TickTock
+    | TickTock Time
     | Increment
     | Decrement
     | AsyncIncrement
+    | AsyncDecrement
     | ChangeCount Payload
 
 
@@ -64,70 +77,49 @@ type Action
 -- UPDATE
 
 
-update : Action -> Model -> ( Model, Effects Action )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update action model =
     case action of
         Increment ->
-            ( { model | value = model.value + model.count }, Effects.none )
+            ( { model | value = model.value + model.count }, Cmd.none )
 
         Decrement ->
-            ( { model | value = model.value - model.count }, Effects.none )
+            ( { model | value = model.value - model.count }, Cmd.none )
 
         AsyncIncrement ->
-            ( model, Effects.task (asyncIncTask model.count) )
+            ( model, asyncTask Increment )
+
+        AsyncDecrement ->
+            ( model, asyncTask Decrement )
 
         ChangeCount payload ->
-            ( { model | count = payload }, Effects.none )
+            ( { model | count = payload }, Cmd.none )
 
-        TickTock ->
+        TickTock _ ->
             (case model.tickTock of
                 "TICK" ->
-                    ( { model | tickTock = "TOCK" }, Effects.none )
+                    ( { model | tickTock = "TOCK" }, Cmd.none )
 
                 "TOCK" ->
-                    ( { model | tickTock = "TICK" }, Effects.none )
+                    ( { model | tickTock = "TICK" }, Cmd.none )
 
                 _ ->
-                    ( model, Effects.none )
+                    ( model, Cmd.none )
             )
 
         NoOp ->
-            ( model, Effects.none )
+            ( model, Cmd.none )
 
 
-asyncIncTask payload =
-    Task.sleep (2 * Time.second)
-        `andThen` (\_ -> Task.succeed Increment)
+asyncTask : Msg -> Cmd Msg
+asyncTask msg =
+    Process.sleep (2 * Time.second)
+        |> Task.perform (always NoOp) (always msg)
 
 
-
--- START STORE
--- fake view needed for startapp
-
-
-view address model =
-    div [] []
-
-
-app =
-    StartApp.start
+main =
+    Redux.program
         { init = init 0
         , update = update
-        , view = view
-        , inputs = inputs
+        , subscriptions = subscriptions
         }
-
-
-
--- OUTBOUND PORTS
--- out is needed for redux-elm-middleware
-
-
-port out : Signal Model
-port out =
-    app.model
-
-
-port tasks : Signal (Task.Task Never ())
-port tasks =
-    app.tasks

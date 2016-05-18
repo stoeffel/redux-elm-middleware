@@ -11,6 +11,7 @@ export const Counter = connect(
         <Button onClick={() => dispatch({type: 'asyncIncrement'})}>2 sec +</Button>
         <Button onClick={() => dispatch({type: 'increment'})}>+</Button>
         <h2>{value}</h2>
+        <Button onClick={() => dispatch({type: 'asyncDecrement'})}>2 sec -</Button>
         <Button onClick={() => dispatch({type: 'decrement'})}>-</Button>
         <input type='number' value={count} onChange={({target}) => dispatch({type: 'changeCount', payload: Number(target.value)})} />
       </div>

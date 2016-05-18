@@ -2,63 +2,109 @@
 
 > Elm middleware for redux :sparkles:
 
+<img src="https://cdn.rawgit.com/stoeffel/redux-elm-middleware/v017/logo/logo.svg" alt="logo" width="250" height="252">
+
 [![Build Status](https://travis-ci.org/stoeffel/redux-elm-middleware.svg?branch=master)](https://travis-ci.org/stoeffel/redux-elm-middleware)
 [![codecov](https://codecov.io/gh/stoeffel/redux-elm-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/stoeffel/redux-elm-middleware)
 [![Dependency Status](https://david-dm.org/stoeffel/redux-elm-middleware.svg)](https://david-dm.org/stoeffel/redux-elm-middleware)
 [![npm version](https://badge.fury.io/js/redux-elm-middleware.svg)](https://badge.fury.io/js/redux-elm-middleware)
 
+## Installation
+
+You need to install redux-elm-middleware for js and elm.
+
+```bash
+$ npm i redux-elm-middleware -S
+```
+
+Redux-elm-middleware is currently only published to npm.
+You will need to add the following to you `elm-package.json`
+
+```json
+  "source-directories": ["node_modules/redux-elm-middleware/src", ...],
+  "native-modules": true,
+```
+
 ## Usage
 
-Check out [`index.js`](examples/src/index.js) and [`Reducer.elm`](examples/src/Reducer.elm) for now.
+### Setup Redux Middleware
 
 ```js
 import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
 
 const reducer = combineReducers({
-  elm: elmReducer,
-  routing: routerReducer
+  elm: elmReducer
+  // ...middlewares
 })
 
-const elmReducer = window.Elm.worker(window.Elm.Reducer, {
-  decrement: null
-});
 
-const { run, elmMiddleware } = createElmMiddleware(elmReducer)
+// create a worker of your elm reducer
+const elmStore = window.Elm.Reducer.worker();
+
+// create the middleware
+const { run, elmMiddleware } = createElmMiddleware(elmStore)
+
+// create the redux store and pass the elmMiddleware
 const store = createStore(reducer, {}, compose(
   applyMiddleware(elmMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
+
+// you need to run the elm middleware and pass the redux store
 run(store)
-
 ```
 
+#### Elm root reducer
+
+The root reducer from redux-elm-middleware simply takes all actions from your elm reducers and returns the payload as the next state.
+
+The new model returned in your elm reducers update function is dispatched as a new action to the redux store.
+
+f.e.
+
+```js
+{
+  type: '@@elm/Increment',
+  payload: {
+    counter: 3
+  }
+}
+```
+
+
+### Creating a Reducer in Elm
+
+A reducer in elm looks like a normal [TEA](https://github.com/evancz/elm-architecture-tutorial) module without the view.
 ```elm
-port decrement : Signal (Maybe ())
-
-inputs =
-    [ Signal.map (always Decrement) decrement
-    ]
+port module Reducer exposing (Model, Msg, init, update, subscriptions) -- Name of the module must match the worker
 
 
-app =
-  StartApp.start
-    { init = init 0
-    , update = update
-    , view = view
-    , inputs = inputs
-    }
+import Redux
 
+-- define ports for all actions which should be handled by the elm reducer
+port increment : (Maybe Int -> msg) -> Sub msg
 
--- OUTBOUND PORTS
--- out is needed for redux-elm-middleware
+-- define all subscriptions of your reducer
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.batch
+        [ increment <| always Increment
+        -- ...
+        ]
 
+-- MODEL
+-- UPDATE
 
-port out : Signal Model
-port out =
-  app.model
-
+-- START THE REDUCER
+main =
+    Redux.program
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        }
 ```
+
 
 ## Motivation
 
@@ -78,7 +124,7 @@ port out =
 * don't have to commit 100% to it
 * slowly convert a redux/react app into elm
 
-## running the example
+## Running the Example
 
 * `npm install`
 * `npm run example`

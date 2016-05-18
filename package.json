@@ -13,7 +13,7 @@
     "example": "npm-run-all --parallel serve elm",
     "serve": "cd examples && webpack-dev-server",
     "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
-    "elm:install": "cd examples && elm-package install -y"
+    "elm:install": "elm-package install -y && cd examples && elm-package install -y"
   },
   "babel": {
     "presets": [
@@ -58,8 +58,9 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
     "codecov": "^1.0.1",
-    "elm": "^0.16.0",
+    "elm": "^0.17.0",
     "elm-live": "^2.2.1",
+    "jsdom-test-browser": "^4.0.2",
     "mocha": "^2.4.5",
     "npm-run-all": "^1.8.0",
     "nyc": "^6.4.2",
@@ -82,6 +83,7 @@
   },
   "files": [
     "index.js",
-    "src/index.js"
+    "src/index.js",
+    "src/Redux.elm"
   ]
 }
