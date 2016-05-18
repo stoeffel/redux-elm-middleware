@@ -1,6 +1,6 @@
 {
   "name": "redux-elm-middleware",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Elm middleware for redux",
   "main": "index.js",
   "scripts": {
