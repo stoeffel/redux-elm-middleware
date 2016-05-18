@@ -15,7 +15,14 @@ You need to install redux-elm-middleware for js and elm.
 
 ```bash
 $ npm i redux-elm-middleware -S
-$ elm package install redux-elm-middleware
+```
+
+Redux-elm-middleware is currently only published to npm.
+You will need to add the following to you `elm-package.json`
+
+```json
+  "source-directories": ["node_modules/redux-elm-middleware/src", ...],
+  "native-modules": true,
 ```
 
 ## Usage
