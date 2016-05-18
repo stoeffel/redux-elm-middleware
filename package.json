@@ -84,6 +84,7 @@
   "files": [
     "index.js",
     "src/index.js",
-    "src/Redux.elm"
+    "src/Redux.elm",
+    "src/Native/Redux.js"
   ]
 }
