@@ -10,3 +10,4 @@ coverage
 coverage.lcov
 examples/build
 !examples/build/index.html
+Native

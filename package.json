@@ -83,6 +83,7 @@
   },
   "files": [
     "index.js",
-    "src/index.js"
+    "src/index.js",
+    "src/Redux.elm"
   ]
 }
