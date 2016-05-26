@@ -1,9 +1,13 @@
+import camelCase from 'camelcase'
+
 export const ELM = '@@elm'
 
 const createElmMiddleware = (elm) => {
   const elmMiddleware = ({dispatch}) => next => action => {
-      if (elm.ports && elm.ports[action.type])
-        elm.ports[action.type].send(action.payload || null)
+      const camelCaseType = camelCase(action.type)
+      if (elm.ports && elm.ports[camelCaseType]) {
+        elm.ports[camelCaseType].send(action.payload || null)
+      }
       next(action)
     }
   const run = store => {

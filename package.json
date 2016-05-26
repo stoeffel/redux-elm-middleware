@@ -46,7 +46,9 @@
     "url": "https://github.com/stoeffel/redux-elm-middleware/issues"
   },
   "homepage": "https://github.com/stoeffel/redux-elm-middleware#readme",
-  "dependencies": {},
+  "dependencies": {
+    "camelcase": "3.0.0"
+  },
   "devDependencies": {
     "ava": "^0.14.0",
     "babel-core": "^6.7.7",

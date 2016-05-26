@@ -8,12 +8,12 @@ export const Counter = connect(
   (function({dispatch, value = 0, count = 1}) {
     return (
       <div>
-        <Button onClick={() => dispatch({type: 'asyncIncrement'})}>2 sec +</Button>
-        <Button onClick={() => dispatch({type: 'increment'})}>+</Button>
+        <Button onClick={() => dispatch({type: 'ASYNC_INCREMENT'})}>2 sec +</Button>
+        <Button onClick={() => dispatch({type: 'INCREMENT'})}>+</Button>
         <h2>{value}</h2>
-        <Button onClick={() => dispatch({type: 'asyncDecrement'})}>2 sec -</Button>
-        <Button onClick={() => dispatch({type: 'decrement'})}>-</Button>
-        <input type='number' value={count} onChange={({target}) => dispatch({type: 'changeCount', payload: Number(target.value)})} />
+        <Button onClick={() => dispatch({type: 'ASYNC_DECREMENT'})}>2 sec -</Button>
+        <Button onClick={() => dispatch({type: 'DECREMENT'})}>-</Button>
+        <input type='number' value={count} onChange={({target}) => dispatch({type: 'CHANGE_COUNT', payload: Number(target.value)})} />
       </div>
     );
 });
