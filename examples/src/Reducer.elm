@@ -4,19 +4,18 @@ import Redux
 import Task exposing (..)
 import Process
 import Time exposing (..)
-import Maybe exposing (Maybe)
 
 
-port increment : (Maybe Int -> msg) -> Sub msg
+port increment : ({} -> msg) -> Sub msg
 
 
-port asyncIncrement : (Maybe Int -> msg) -> Sub msg
+port asyncIncrement : ({} -> msg) -> Sub msg
 
 
-port asyncDecrement : (Maybe Int -> msg) -> Sub msg
+port asyncDecrement : ({} -> msg) -> Sub msg
 
 
-port decrement : (Maybe Int -> msg) -> Sub msg
+port decrement : ({} -> msg) -> Sub msg
 
 
 port changeCount : (Payload -> msg) -> Sub msg
@@ -24,7 +23,7 @@ port changeCount : (Payload -> msg) -> Sub msg
 
 clock : Sub Msg
 clock =
-    Time.every second TickTock
+    Time.every (second * 5) TickTock
 
 
 subscriptions : Model -> Sub Msg

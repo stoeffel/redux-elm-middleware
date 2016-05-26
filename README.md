@@ -83,7 +83,7 @@ port module Reducer exposing (Model, Msg, init, update, subscriptions) -- Name o
 import Redux
 
 -- define ports for all actions which should be handled by the elm reducer
-port increment : (Maybe Int -> msg) -> Sub msg
+port increment : ({} -> msg) -> Sub msg
 
 -- define all subscriptions of your reducer
 subscriptions : Model -> Sub Msg
