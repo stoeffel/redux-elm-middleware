@@ -17,11 +17,37 @@ describe('Middleware', () => {
     assert.deepEqual(mockStore.getActions(), [{ type: 'TEST' }]);
   })
 
+  it('uppercase action types should be valid', () => {
+    const spy = sinon.spy()
+    const { elmMiddleware } = createMiddleware({
+      ports: {
+        testingCamelCase: {
+          send: spy
+        }
+      }
+    })
+    const mockStore = configureStore([elmMiddleware])({})
+
+    mockStore.dispatch({ type: 'TESTING_CAMEL_CASE' })
+    mockStore.dispatch({
+      type: 'TESTING_CAMEL_CASE',
+      payload: 'foo'
+    })
+
+    assert.deepEqual(mockStore.getActions(), [
+        { type: 'TESTING_CAMEL_CASE' },
+        { type: 'TESTING_CAMEL_CASE', payload: 'foo' },
+    ]);
+    assert.ok(spy.getCall(0).args[0] === null);
+    assert.ok(spy.getCall(1).args[0] === 'foo');
+
+  })
+
   it('should send a action to a port if present', () => {
     const spy = sinon.spy()
     const { elmMiddleware } = createMiddleware({
       ports: {
-        TEST: {
+        test: {
           send: spy
         }
       }
@@ -31,7 +57,6 @@ describe('Middleware', () => {
     mockStore.dispatch({ type: 'TEST' })
     mockStore.dispatch({ type: 'NO_PORT' })
     mockStore.dispatch({ type: 'TEST', payload: 'foo' })
-
 
     assert.deepEqual(mockStore.getActions(), [
         { type: 'TEST' },
