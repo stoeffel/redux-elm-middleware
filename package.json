@@ -87,6 +87,7 @@
     "index.js",
     "src/index.js",
     "src/Redux.elm",
-    "src/Native/Redux.js"
+    "src/Native/Redux.js",
+    "elm-package.json"
   ]
 }
