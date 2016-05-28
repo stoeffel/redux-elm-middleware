@@ -21,6 +21,7 @@ Redux-elm-middleware is currently only published to npm.
 You will need to add the following to you `elm-package.json`
 
 ```json
+  "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
   "source-directories": ["node_modules/redux-elm-middleware/src", ...],
   "native-modules": true,
 ```
