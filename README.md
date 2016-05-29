@@ -22,8 +22,7 @@ You will need to add the following to you `elm-package.json`
 
 ```json
   "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
-  "source-directories": ["node_modules/redux-elm-middleware/src", ...],
-  "native-modules": true,
+  "source-directories": ["node_modules/redux-elm-middleware/src", ...]
 ```
 
 ## Usage

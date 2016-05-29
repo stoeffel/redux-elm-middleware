@@ -11,7 +11,6 @@ const createElmMiddleware = (elm) => {
       next(action)
     }
   const run = store => {
-    window.__REDUX_ELM_STORE__ = store;
     if (elm && elm.ports && elm.ports.elmToRedux) {
       elm.ports.elmToRedux.subscribe(payload => {
         store.dispatch({
