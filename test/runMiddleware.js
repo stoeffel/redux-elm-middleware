@@ -1,6 +1,7 @@
 import assert from 'assert'
 import bro from 'jsdom-test-browser'
 import createMiddleware, { ELM } from '../src'
+import sinon from 'sinon'
 
 describe('Run', () => {
   before(bro.newBrowser);
@@ -9,9 +10,19 @@ describe('Run', () => {
     assert.equal(typeof createMiddleware({}).run, 'function')
   })
 
-  it('should create a global var on the window object', () => {
-    window = {};
-    createMiddleware({}).run('foo')
-    assert.equal(window.__REDUX_ELM_STORE__, 'foo')
+  it('should subscribe to outgoing elm port', () => {
+    const spy = sinon.spy()
+    const elm = {
+      ports: {
+        elmToRedux: {
+          subscribe: spy
+        }
+      }
+    }
+    const store = {
+      dispatch: () => {}
+    }
+    createMiddleware(elm).run(store)
+    assert.ok(spy.getCall(0).args[0] instanceof Function)
   })
 })
