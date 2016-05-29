@@ -4,6 +4,8 @@ import Redux
 import Task exposing (..)
 import Process
 import Time exposing (..)
+import Json.Encode as Json exposing
+    ( object, string, int )
 
 
 port increment : ({} -> msg) -> Sub msg
@@ -52,6 +54,14 @@ type alias Model =
     , count : Int
     , tickTock : String
     }
+
+encodeModel : Model -> Json.Value
+encodeModel { value, count, tickTock } =
+    object
+        [ ( "value", int value )
+        , ( "count", int count )
+        , ( "tickTock", string tickTock )
+        ]
 
 
 type alias Payload =
@@ -120,5 +130,6 @@ main =
     Redux.program
         { init = init 0
         , update = update
+        , encode = encodeModel
         , subscriptions = subscriptions
         }
