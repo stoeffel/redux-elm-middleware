@@ -12,7 +12,7 @@ view : model -> Html.Html msg
 view model =
     div [] []
 
-port elmToRedux : Json.Value -> Cmd msg
+port elmToRedux : (String, Json.Value) -> Cmd msg
 
 
 {-| Creates a [Program](http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Platform#Program) that defines how your reducer works. This is a convinient wrapper arround [Html.App.programm](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#program).
@@ -35,7 +35,9 @@ program app =
             ( message
             , Cmd.batch
                 [ cmd
-                , app.encode message |> elmToRedux
+                , ( toString action
+                  , app.encode message
+                  ) |> elmToRedux
                 ]
             )
 

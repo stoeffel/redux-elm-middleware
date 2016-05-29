@@ -12,9 +12,10 @@ const createElmMiddleware = (elm) => {
     }
   const run = store => {
     if (elm && elm.ports && elm.ports.elmToRedux) {
-      elm.ports.elmToRedux.subscribe(payload => {
+      elm.ports.elmToRedux.subscribe(([action, payload]) => {
+        const [actionType, ...rest] = action.split(' ')
         store.dispatch({
-          type: '@@elm/json',
+          type: `@@elm/${actionType}`,
           payload
         })
       })
