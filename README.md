@@ -21,7 +21,6 @@ Redux-elm-middleware is currently only published to npm.
 You will need to add the following to you `elm-package.json`
 
 ```json
-  "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
   "source-directories": ["node_modules/redux-elm-middleware/src", ...]
 ```
 
@@ -93,6 +92,11 @@ subscriptions _ =
         -- ...
         ]
 
+-- In order for the Elm model to cross the border safely it must be encoded as a JSON value.
+encode : Model -> Json.Encode.Value
+encode model =
+    ...
+
 -- MODEL
 -- UPDATE
 
@@ -101,6 +105,7 @@ main =
     Redux.program
         { init = init
         , update = update
+        , encode = encode
         , subscriptions = subscriptions
         }
 ```
