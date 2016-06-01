@@ -1,6 +1,7 @@
 import assert from 'assert'
 import bro from 'jsdom-test-browser'
 import createMiddleware, { ELM } from '../src'
+import sinon from 'sinon'
 
 describe('Run', () => {
   before(bro.newBrowser);
@@ -9,9 +10,38 @@ describe('Run', () => {
     assert.equal(typeof createMiddleware({}).run, 'function')
   })
 
-  it('should create a global var on the window object', () => {
-    window = {};
-    createMiddleware({}).run('foo')
-    assert.equal(window.__REDUX_ELM_STORE__, 'foo')
+  it('should subscribe to outgoing elm port', () => {
+    const spy = sinon.spy()
+    const noCallSpy = sinon.spy()
+    const elm = {
+      ports: {
+        elmToRedux: {
+          subscribe: (fn) => {
+            fn(['Increment 5', { value: 5 }])
+          }
+        }
+      }
+    }
+    const noPortElm = {
+      ports: {
+        incorrectPortName: {
+          subscribe: noCallSpy
+        }
+      }
+    }
+    const store = {
+      dispatch: spy
+    }
+    const expectedAction = {
+      type: '@@elm/Increment',
+      payload: { value: 5 }
+    }
+    createMiddleware(elm).run(store)
+    createMiddleware(noPortElm).run(store)
+    assert.deepEqual(
+      spy.getCall(0).args[0],
+      expectedAction
+    )
+    assert.ok(noCallSpy.callCount === 0)
   })
 })
