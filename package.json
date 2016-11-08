@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/stoeffel/redux-elm-middleware#readme",
   "dependencies": {
-    "camelcase": "3.0.0"
+    "camelcase": "4.0.0"
   },
   "devDependencies": {
     "ava": "^0.15.2",
