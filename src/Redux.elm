@@ -4,15 +4,11 @@ port module Redux exposing (program)
 @docs program
 -}
 
-import Html exposing (div)
-import Html.App as Html
+import Platform
 import Json.Encode as Json
 
-view : model -> Html.Html msg
-view model =
-    div [] []
 
-port elmToRedux : (String, Json.Value) -> Cmd msg
+port elmToRedux : ( String, Json.Value ) -> Cmd msg
 
 
 {-| Creates a [Program](http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Platform#Program) that defines how your reducer works. This is a convinient wrapper arround [Html.App.programm](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#program).
@@ -28,7 +24,7 @@ program :
     , encode : model -> Json.Value
     , subscriptions : model -> Sub msg
     }
-    -> Program Never
+    -> Program Never model msg
 program app =
     let
         reducer action ( message, cmd ) =
@@ -37,16 +33,16 @@ program app =
                 [ cmd
                 , ( toString action
                   , app.encode message
-                  ) |> elmToRedux
+                  )
+                    |> elmToRedux
                 ]
             )
 
         wrap update msg model =
             reducer msg <| update msg model
     in
-        Html.program
+        Platform.program
             { init = app.init
             , update = wrap app.update
             , subscriptions = app.subscriptions
-            , view = view
             }
