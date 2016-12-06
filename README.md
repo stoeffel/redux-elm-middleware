@@ -32,6 +32,9 @@ You will need to add the following to you `elm-package.json`
 import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
 
+// Import your Elm Reducer
+import Elm from '../build/elm'
+
 const reducer = combineReducers({
   elm: elmReducer
   // ...middlewares
@@ -39,7 +42,7 @@ const reducer = combineReducers({
 
 
 // create a worker of your elm reducer
-const elmStore = window.Elm.Reducer.worker();
+const elmStore = Elm.Reducer.worker();
 
 // create the middleware
 const { run, elmMiddleware } = createElmMiddleware(elmStore)
