@@ -4,20 +4,20 @@ import Redux
 import Task exposing (..)
 import Process
 import Time exposing (..)
-import Json.Encode as Json exposing
-    ( object, string, int )
+import Json.Encode as Json exposing (object, string, int)
+import Json.Decode exposing (Value)
 
 
-port increment : ({} -> msg) -> Sub msg
+port increment : (Value -> msg) -> Sub msg
 
 
-port asyncIncrement : ({} -> msg) -> Sub msg
+port asyncIncrement : (Value -> msg) -> Sub msg
 
 
-port asyncDecrement : ({} -> msg) -> Sub msg
+port asyncDecrement : (Value -> msg) -> Sub msg
 
 
-port decrement : ({} -> msg) -> Sub msg
+port decrement : (Value -> msg) -> Sub msg
 
 
 port changeCount : (Payload -> msg) -> Sub msg
@@ -54,6 +54,7 @@ type alias Model =
     , count : Int
     , tickTock : String
     }
+
 
 encodeModel : Model -> Json.Value
 encodeModel { value, count, tickTock } =
@@ -123,7 +124,7 @@ update action model =
 asyncTask : Msg -> Cmd Msg
 asyncTask msg =
     Process.sleep (2 * Time.second)
-        |> Task.perform (always NoOp) (always msg)
+        |> Task.perform (always msg)
 
 
 main =

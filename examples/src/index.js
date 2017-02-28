@@ -10,14 +10,14 @@ import { TickTock } from './containers/ticktock'
 import { Counter } from './containers/counter'
 import createElmMiddleware from 'redux-elm-middleware'
 import { reducer as elmReducer } from 'redux-elm-middleware'
+import Elm from '../build/elm'
 
 const reducer = combineReducers({
   elm: elmReducer
 , routing: routerReducer
 })
 
-
-const elmStore = window.Elm.Reducer.worker();
+const elmStore = Elm.Reducer.worker();
 
 const { run, elmMiddleware } = createElmMiddleware(elmStore)
 const store = createStore(reducer, {}, compose(
