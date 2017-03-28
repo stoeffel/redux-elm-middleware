@@ -63,7 +63,7 @@
     "elm": "^0.18.0",
     "elm-live": "^2.2.1",
     "jsdom-test-browser": "^4.0.2",
-    "mocha": "^2.4.5",
+    "mocha": "^3.1.2",
     "npm-run-all": "^3.0.0",
     "nyc": "^8.3.0",
     "ramda": "^0.21.0",
