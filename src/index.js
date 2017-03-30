@@ -28,7 +28,7 @@ const createElmMiddleware = (elm) => {
 
 export default createElmMiddleware
 
-export const reducer = function(state = {}, action) {
+export const createElmReducer = (init) => (state = init, action) => {
   const [elmAction, type] = action.type.split('/')
   if (elmAction === ELM) {
     return action.payload
@@ -36,3 +36,5 @@ export const reducer = function(state = {}, action) {
 
   return state
 }
+
+export const reducer = createElmReducer({})

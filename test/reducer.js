@@ -1,6 +1,6 @@
 import assert from 'assert'
 import testReducer from 'redux-test-reducer'
-import { reducer } from '../src'
+import { reducer, createElmReducer } from '../src'
 
 describe('Reducer', () => {
   it('should be a function', () => {
@@ -30,6 +30,24 @@ describe('Reducer', () => {
     const assertReducer = testReducer(reducer)
     const from = {
       init: true
+    }
+    const to = from
+    const action = {
+      type: 'OTHER_ACTION',
+      payload: {
+        foo: true
+      }
+    }
+    assertReducer({
+      from, to, action
+    })
+  })
+
+  it('allows setting the initial state with createElmReducer', () => {
+    const customInit = 1
+    const assertReducer = testReducer(createElmReducer(customInit))
+    const from = {
+      init: customInit
     }
     const to = from
     const action = {
