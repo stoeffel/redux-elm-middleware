@@ -79,7 +79,7 @@
     "sinon": "^1.17.4",
     "standard": "^8.1.0",
     "standard-format": "^2.1.1",
-    "webpack": "^1.13.0",
+    "webpack": "^2.6.1",
     "webpack-dev-server": "^1.14.1",
     "xyz": "^1.0.1"
   },
