@@ -80,7 +80,7 @@
     "standard": "^8.1.0",
     "standard-format": "^2.1.1",
     "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-server": "^2.4.4",
     "xyz": "^1.0.1"
   },
   "files": [
