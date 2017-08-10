@@ -6,7 +6,8 @@ const createElmMiddleware = (elm) => {
   const elmMiddleware = ({dispatch}) => next => action => {
       const camelCaseType = camelCase(action.type)
       if (elm.ports && elm.ports[camelCaseType]) {
-        elm.ports[camelCaseType].send(action.payload || null)
+        const payload = typeof action.payload === undefined ? null : action.payload;
+        elm.ports[camelCaseType].send(payload)
       }
       next(action)
     }
