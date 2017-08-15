@@ -16,7 +16,7 @@ const createElmMiddleware = (elm) => {
       elm.ports.elmToRedux.subscribe(([action, payload]) => {
         const [actionType, ...rest] = action.split(' ')
         store.dispatch({
-          type: `@@elm/${actionType}`,
+          type: `${ELM}/${actionType}`,
           payload
         })
       })
