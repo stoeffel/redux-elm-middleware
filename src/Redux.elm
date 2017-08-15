@@ -49,8 +49,7 @@ program app =
 
 
 programWithFlags :
-    { init : ( model, Cmd msg )
-    , flags : ( model, Cmd msg )
+    { init : flags -> ( model, Cmd msg )
     , update : msg -> model -> ( model, Cmd msg )
     , encode : model -> Json.Value
     , subscriptions : model -> Sub msg
@@ -74,7 +73,6 @@ programWithFlags app =
     in
         Platform.programWithFlags
             { init = app.init
-            , flags = app.flags
             , update = wrap app.update
             , subscriptions = app.subscriptions
             }
