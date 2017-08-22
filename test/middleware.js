@@ -38,7 +38,7 @@ describe('Middleware', () => {
         { type: 'TESTING_CAMEL_CASE' },
         { type: 'TESTING_CAMEL_CASE', payload: 'foo' },
     ]);
-    assert.ok(spy.getCall(0).args[0] === null);
+    assert.ok(spy.getCall(0).args[0] === undefined);
     assert.ok(spy.getCall(1).args[0] === 'foo');
 
   })
@@ -63,7 +63,7 @@ describe('Middleware', () => {
         { type: 'NO_PORT' },
         { type: 'TEST', payload: 'foo' }
     ]);
-    assert.ok(spy.getCall(0).args[0] === null);
+    assert.ok(spy.getCall(0).args[0] === undefined);
     assert.ok(spy.getCall(1).args[0] === 'foo');
   })
 })
