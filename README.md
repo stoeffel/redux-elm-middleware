@@ -9,6 +9,8 @@
 [![Dependency Status](https://david-dm.org/stoeffel/redux-elm-middleware.svg)](https://david-dm.org/stoeffel/redux-elm-middleware)
 [![npm version](https://badge.fury.io/js/redux-elm-middleware.svg)](https://badge.fury.io/js/redux-elm-middleware)
 
+> **NOTE**: This is a forked version of the original package. The reason behind forking is to provide better and faster support for this package, including bug fixes and improvements.
+
 ## Installation
 
 You need to install redux-elm-middleware for js and elm.
@@ -113,6 +115,39 @@ main =
         }
 ```
 
+#### Flags support
+
+In 5.0.0 `programWithFlags` was added and now you can pass down needed flags from JavaScript to your Elm reducer. `programWithFlags` works the same way as Elm works with flags.
+
+Updated version from the example above will be the following:
+
+```js
+// create a worker of your elm reducer
+// and pass flags to it
+const elmStore = Elm.Reducer.worker({
+    bar: 'baz'
+});
+```
+
+```elm
+type alias Flags =
+    { bar : String }
+
+type alias Model =
+    { foo: String }
+
+init : Flags -> ( Model, Cmd Msg )
+init { bar } =
+    ({ foo = bar }, Cmd.none)
+
+main =
+    Redux.programWithFlags
+        { init = init
+        , update = update
+        , encode = encode
+        , subscriptions = subscriptions
+        }
+```
 
 ## Motivation
 
