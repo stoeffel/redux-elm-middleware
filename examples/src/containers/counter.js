@@ -1,20 +1,52 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button } from '../components/button'
 
-export const Counter = connect(
-    ({elm}) => ({ value: elm.value, count: elm.count })
-  )
-  (function({dispatch, value = 0, count = 1}) {
+class Counter extends React.Component {
+  render () {
     return (
       <div>
-        <Button onClick={() => dispatch({type: 'ASYNC_INCREMENT'})}>2 sec +</Button>
-        <Button onClick={() => dispatch({type: 'INCREMENT'})}>+</Button>
-        <h2>{value}</h2>
-        <Button onClick={() => dispatch({type: 'ASYNC_DECREMENT'})}>2 sec -</Button>
-        <Button onClick={() => dispatch({type: 'DECREMENT'})}>-</Button>
-        <input type='number' value={count} onChange={({target}) => dispatch({type: 'CHANGE_COUNT', payload: Number(target.value)})} />
+        <button onClick={() => this.props.asyncInc()}>2 sec +</button>
+        <button onClick={() => this.props.inc()}>+</button>
+        <h2>{this.props.value}</h2>
+        <button onClick={() => this.props.asyncDec()}>2 sec -</button>
+        <button onClick={() => this.props.dec()}>-</button>
       </div>
-    );
-});
+    )
+  }
+}
 
+// REDUCER
+const mapStateToProps = ({elmReducer}) => ({
+  value: elmReducer.value,
+  count: elmReducer.count
+})
+
+// ACTIONS
+const INCREMENT = 'INCREMENT'
+export const incrementAction = () => ({
+  type: INCREMENT
+})
+
+const ASYNC_INCREMENT = 'ASYNC_INCREMENT'
+export const asyncIncrementAction = () => ({
+  type: ASYNC_INCREMENT
+})
+
+const DECREMENT = 'DECREMENT'
+export const decrementAction = () => ({
+  type: DECREMENT
+})
+
+const ASYNC_DECREMENT = 'ASYNC_DECREMENT'
+export const asyncDecrementAction = () => ({
+  type: ASYNC_DECREMENT
+})
+
+const mapDispatchToProps = dispatch => ({
+  asyncInc: () => dispatch(asyncIncrementAction()),
+  inc: () => dispatch(incrementAction()),
+  asyncDec: () => dispatch(asyncDecrementAction()),
+  dec: () => dispatch(decrementAction()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter)

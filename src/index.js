@@ -4,26 +4,27 @@ export const ELM = '@@elm'
 
 const createElmMiddleware = (elm) => {
   const elmMiddleware = ({dispatch}) => next => action => {
-      const camelCaseType = camelCase(action.type)
-      if (elm.ports && elm.ports[camelCaseType]) {
-        elm.ports[camelCaseType].send(action.payload || null)
-      }
-      next(action)
+    const camelCaseType = camelCase(action.type)
+    if (elm.ports && elm.ports[camelCaseType]) {
+      const payload = typeof action.payload === undefined ? null : action.payload
+      elm.ports[camelCaseType].send(payload)
     }
+    next(action)
+  }
+
   const run = store => {
     if (elm && elm.ports && elm.ports.elmToRedux) {
       elm.ports.elmToRedux.subscribe(([action, payload]) => {
         const [actionType, ...rest] = action.split(' ')
         store.dispatch({
-          type: `@@elm/${actionType}`,
+          type: `${ELM}/${actionType}`,
           payload
         })
       })
     }
   }
 
-
-  return { elmMiddleware, run }
+  return {elmMiddleware, run}
 }
 
 export default createElmMiddleware

@@ -12,3 +12,4 @@ examples/build
 !examples/build/index.html
 Native
 index.html
+.idea/

@@ -35,10 +35,10 @@ describe('Middleware', () => {
     })
 
     assert.deepEqual(mockStore.getActions(), [
-        { type: 'TESTING_CAMEL_CASE' },
-        { type: 'TESTING_CAMEL_CASE', payload: 'foo' },
+      { type: 'TESTING_CAMEL_CASE' },
+      { type: 'TESTING_CAMEL_CASE', payload: 'foo' },
     ]);
-    assert.ok(spy.getCall(0).args[0] === null);
+    assert.ok(spy.getCall(0).args[0] === undefined);
     assert.ok(spy.getCall(1).args[0] === 'foo');
 
   })
@@ -59,11 +59,11 @@ describe('Middleware', () => {
     mockStore.dispatch({ type: 'TEST', payload: 'foo' })
 
     assert.deepEqual(mockStore.getActions(), [
-        { type: 'TEST' },
-        { type: 'NO_PORT' },
-        { type: 'TEST', payload: 'foo' }
+      { type: 'TEST' },
+      { type: 'NO_PORT' },
+      { type: 'TEST', payload: 'foo' }
     ]);
-    assert.ok(spy.getCall(0).args[0] === null);
+    assert.ok(spy.getCall(0).args[0] === undefined);
     assert.ok(spy.getCall(1).args[0] === 'foo');
   })
 })
