@@ -11,12 +11,12 @@ const reducer = combineReducers({
   elmReducer: createElmReducer(elmReducerInitialState) // set initial state in redux, but not took into account by elm
 })
 
-const {toElmMiddleware, subscribeToElm} = createElmMiddleware(
+const {sendActionsToElm, subscribeToElm} = createElmMiddleware(
   Elm.Reducer.worker(elmReducerInitialState) //Reducer is the name of your exported elm module
 )
 
 const store = createStore(reducer, compose(
-  applyMiddleware(toElmMiddleware),
+  applyMiddleware(sendActionsToElm),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ))
 

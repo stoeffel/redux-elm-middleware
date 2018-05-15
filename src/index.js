@@ -13,7 +13,7 @@ export const createElmReducer = init => (state = init, action) => {
 }
 
 const createElmMiddleware = elmModule => {
-  const toElmMiddleware = () => next => action => {
+  const sendActionsToElm = () => next => action => {
     const elmPortName = actionTypeToElmPortName(action.type)
 
     if (elmPortName === subscriptionPort) {
@@ -42,7 +42,7 @@ const createElmMiddleware = elmModule => {
     }
   }
 
-  return {toElmMiddleware, subscribeToElm}
+  return {sendActionsToElm, subscribeToElm}
 }
 
 // default export

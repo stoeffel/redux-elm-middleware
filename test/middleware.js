@@ -9,14 +9,14 @@ describe('Middleware', () => {
   })
 
   it('should create a middleware', () => {
-    const mockStore = configureStore([ createMiddleware({}).toElmMiddleware ])({})
+    const mockStore = configureStore([ createMiddleware({}).sendActionsToElm ])({})
     mockStore.dispatch({ type: 'TEST' })
     assert.deepEqual(mockStore.getActions(), [{ type: 'TEST' }]);
   })
 
   it('uppercase action types should be valid', () => {
     const spy = sinon.spy()
-    const { toElmMiddleware } = createMiddleware({
+    const { sendActionsToElm } = createMiddleware({
       ports: {
         testingCamelCase: {
           send: spy
@@ -24,7 +24,7 @@ describe('Middleware', () => {
       }
     })
 
-    const mockStore = configureStore([toElmMiddleware])({})
+    const mockStore = configureStore([sendActionsToElm])({})
 
     mockStore.dispatch({ type: 'TESTING_CAMEL_CASE' })
     mockStore.dispatch({
@@ -43,14 +43,14 @@ describe('Middleware', () => {
 
   it('should send an action to a port if present', () => {
     const spy = sinon.spy()
-    const { toElmMiddleware } = createMiddleware({
+    const { sendActionsToElm } = createMiddleware({
       ports: {
         test: {
           send: spy
         }
       }
     })
-    const mockStore = configureStore([toElmMiddleware])({})
+    const mockStore = configureStore([sendActionsToElm])({})
 
     mockStore.dispatch({ type: 'TEST' })
     mockStore.dispatch({ type: 'NO_PORT' })
