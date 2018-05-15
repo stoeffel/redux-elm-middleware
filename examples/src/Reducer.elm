@@ -80,6 +80,7 @@ modelToRedux { modelValue, modelCount } =
     object
         [ ( "value", Json.Encode.int modelValue )
         , ( "count", Json.Encode.int modelCount )
+        , ( "casdount", Json.Encode.int modelCount )
         ]
 
 

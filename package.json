@@ -15,20 +15,6 @@
     "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
     "elm:install": "elm-package install -y && cd examples && elm-package install -y"
   },
-  "standard": {
-    "ignore": [
-      "/build/"
-    ],
-    "globals": [
-      "__DEV__",
-      "__TESTING__"
-    ],
-    "rules": {
-      "arrow-parens": 0,
-      "babel/arrow-parens": 0
-    },
-    "parser": "babel-eslint"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stoeffel/redux-elm-middleware.git"
