@@ -1,31 +1,34 @@
-port module Reducer exposing (Model, Msg, init, update, subscriptions)
+port module Reducer exposing (Model, Msg)
 
 import Redux
 import Task exposing (..)
 import Process
 import Time exposing (..)
-import Json.Encode as Json exposing (object, string, int)
-import Json.Decode exposing (Value)
+import Json.Encode exposing (..)
+import Json.Decode exposing (..)
 
 
-port increment : (Value -> msg) -> Sub msg
+{-| the Elm middleware will transform the action.type-s to camel case
+Ex with an action like :
+{ type : "ASYNC_INCREMENT" }
+will be sent to the "asyncIncrement" port
+-}
+port increment : (Json.Encode.Value -> msg) -> Sub msg
 
 
-port asyncIncrement : (Value -> msg) -> Sub msg
+port asyncIncrement : (Json.Encode.Value -> msg) -> Sub msg
 
 
-port asyncDecrement : (Value -> msg) -> Sub msg
+port asyncDecrement : (Json.Encode.Value -> msg) -> Sub msg
 
 
-port decrement : (Value -> msg) -> Sub msg
+port decrement : (Json.Encode.Value -> msg) -> Sub msg
 
 
-port changeCount : (Payload -> msg) -> Sub msg
-
-
-clock : Sub Msg
-clock =
-    Time.every (second * 5) TickTock
+type alias Model =
+    { modelValue : Int
+    , modelCount : Int
+    }
 
 
 subscriptions : Model -> Sub Msg
@@ -35,8 +38,6 @@ subscriptions _ =
         , increment <| always Increment
         , asyncIncrement <| always AsyncIncrement
         , asyncDecrement <| always AsyncDecrement
-        , changeCount ChangeCount
-        , clock
         ]
 
 
@@ -44,29 +45,48 @@ subscriptions _ =
 -- MODEL
 
 
-init : Int -> ( Model, Cmd Msg )
-init value =
-    ( { value = value, count = 1, tickTock = "TICK" }, Cmd.none )
-
-
-type alias Model =
+type alias ReduxModel =
     { value : Int
     , count : Int
-    , tickTock : String
     }
 
 
-encodeModel : Model -> Json.Value
-encodeModel { value, count, tickTock } =
+fallBackModel =
+    { modelCount = 1000, modelValue = 3 }
+
+
+init : Json.Decode.Value -> ( Model, Cmd Msg )
+init flags =
+    case Json.Decode.decodeValue flagsDecoder flags of
+        Ok f ->
+            ( reduxToModel f, Cmd.none )
+
+        Err err ->
+            Debug.log ("Error parsing flag, falling back to default value => " ++ toString flags ++ err)
+                ( fallBackModel, Cmd.none )
+
+
+flagsDecoder : Json.Decode.Decoder ReduxModel
+flagsDecoder =
+    Json.Decode.map2 ReduxModel
+        (field "value" Json.Decode.int)
+        (field "count" Json.Decode.int)
+
+
+reduxToModel : ReduxModel -> Model
+reduxToModel reduxModel =
+    { modelValue = reduxModel.value
+    , modelCount = reduxModel.count
+    }
+
+
+modelToRedux : Model -> Json.Encode.Value
+modelToRedux { modelValue, modelCount } =
     object
-        [ ( "value", int value )
-        , ( "count", int count )
-        , ( "tickTock", string tickTock )
+        [ ( "value", Json.Encode.int modelValue )
+        , ( "count", Json.Encode.int modelCount )
+        , ( "randomStuff", Json.Encode.int modelCount )
         ]
-
-
-type alias Payload =
-    Int
 
 
 
@@ -75,12 +95,10 @@ type alias Payload =
 
 type Msg
     = NoOp
-    | TickTock Time
     | Increment
     | Decrement
     | AsyncIncrement
     | AsyncDecrement
-    | ChangeCount Payload
 
 
 
@@ -91,10 +109,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update action model =
     case action of
         Increment ->
-            ( { model | value = model.value + model.count }, Cmd.none )
+            ( { model | modelValue = model.modelValue + model.modelCount }, Cmd.none )
 
         Decrement ->
-            ( { model | value = model.value - model.count }, Cmd.none )
+            ( { model | modelValue = model.modelValue - model.modelCount }, Cmd.none )
 
         AsyncIncrement ->
             ( model, asyncTask Increment )
@@ -102,35 +120,20 @@ update action model =
         AsyncDecrement ->
             ( model, asyncTask Decrement )
 
-        ChangeCount payload ->
-            ( { model | count = payload }, Cmd.none )
-
-        TickTock _ ->
-            (case model.tickTock of
-                "TICK" ->
-                    ( { model | tickTock = "TOCK" }, Cmd.none )
-
-                "TOCK" ->
-                    ( { model | tickTock = "TICK" }, Cmd.none )
-
-                _ ->
-                    ( model, Cmd.none )
-            )
-
         NoOp ->
             ( model, Cmd.none )
 
 
 asyncTask : Msg -> Cmd Msg
 asyncTask msg =
-    Process.sleep (2 * Time.second)
+    Process.sleep (Time.second)
         |> Task.perform (always msg)
 
 
 main =
-    Redux.program
-        { init = init 0
+    Redux.programWithFlags
+        { init = init
         , update = update
-        , encode = encodeModel
+        , encode = modelToRedux
         , subscriptions = subscriptions
         }

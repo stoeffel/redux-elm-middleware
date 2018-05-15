@@ -1,6 +1,6 @@
 {
   "name": "redux-elm-middleware",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "Elm middleware for redux",
   "main": "index.js",
   "scripts": {
@@ -11,30 +11,9 @@
     "release:minor": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment minor",
     "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch",
     "example": "npm-run-all --parallel serve elm",
-    "serve": "cd examples && webpack-dev-server",
+    "serve": "cd examples && webpack-dev-server --mode development",
     "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
     "elm:install": "elm-package install -y && cd examples && elm-package install -y"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-0",
-      "react"
-    ]
-  },
-  "standard": {
-    "ignore": [
-      "/build/"
-    ],
-    "globals": [
-      "__DEV__",
-      "__TESTING__"
-    ],
-    "rules": {
-      "arrow-parens": 0,
-      "babel/arrow-parens": 0
-    },
-    "parser": "babel-eslint"
   },
   "repository": {
     "type": "git",
@@ -47,40 +26,32 @@
   },
   "homepage": "https://github.com/stoeffel/redux-elm-middleware#readme",
   "dependencies": {
-    "camelcase": "3.0.0"
+    "camelcase": "5.0.0"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
-    "babel-core": "^6.7.7",
-    "babel-eslint": "^6.0.3",
-    "babel-loader": "^6.2.4",
-    "babel-polyfill": "^6.7.4",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.7.2",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.5.0",
     "codecov": "^1.0.1",
     "elm": "^0.18.0",
     "elm-live": "^2.2.1",
+    "elm-webpack-loader": "^4.5.0",
     "jsdom-test-browser": "^4.0.2",
     "mocha": "^2.4.5",
     "npm-run-all": "^3.0.0",
     "nyc": "^8.3.0",
-    "ramda": "^0.21.0",
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "react-redux": "^4.4.5",
-    "react-router": "^2.4.0",
-    "react-router-redux": "^4.0.4",
-    "redux": "^3.5.2",
-    "redux-actions": "^0.11.0",
+    "redux": "^3.0.0",
     "redux-mock-store": "^1.0.2",
     "redux-test-reducer": "^0.1.0",
     "sinon": "^1.17.4",
-    "standard": "^8.1.0",
-    "standard-format": "^2.1.1",
-    "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4",
     "xyz": "^1.0.1"
   },
   "files": [

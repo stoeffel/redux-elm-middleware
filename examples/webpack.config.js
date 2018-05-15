@@ -1,6 +1,4 @@
-const webpack = require('webpack')
 const path = require('path')
-const R = require('ramda')
 
 const PATHS = {
   build: path.join(__dirname, 'build'),
@@ -8,34 +6,33 @@ const PATHS = {
 }
 
 module.exports = {
-  entry: ['babel-polyfill', PATHS.src],
+  entry: [PATHS.src],
   output: {
-    path: PATHS.build,
+    // path: PATHS.build,
     filename: 'bundle.js'
   },
-  resolve: {
-    // add alias for application code directory
-    alias:{
-      'redux-elm-middleware': path.resolve( __dirname, '..', 'src')
-    },
-    extensions: [ '', '.js' ]
-  },
-  externals: [{ 'window': 'window' }],
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      exclude: /(node_modules|bower_components)/
-    }]
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.elm$/,
+        exclude: [/elm-stuff/, /node_modules/],
+        loader: 'elm-webpack-loader?verbose=true&warn=true'
+      }
+    ],
+    noParse: /\.elm$/
+  },
+  resolve: {
+    alias: {
+      'redux-elm-middleware': path.resolve(__dirname, '..', 'src')
+    },
+    extensions: ['*', '.js', '.jsx', '.elm']
   },
   devServer: {
-    historyApiFallback: true,
-    contentBase: PATHS.build,
-    hot: true,
-    inline: true,
-    progress: true
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    contentBase: PATHS.build
+  }
 }

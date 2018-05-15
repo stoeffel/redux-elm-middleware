@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/stoeffel/redux-elm-middleware.git",
+    "repository": "https://github.com/err0r500/redux-elm-middleware.git",
     "license": "BSD3",
     "source-directories": [
         ".",
