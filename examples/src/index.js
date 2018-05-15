@@ -11,7 +11,7 @@ const reducer = combineReducers({
   elmReducer: createElmReducer(elmReducerInitialState) // set initial state in redux, but not took into account by elm
 })
 
-const {toElmMiddleware, fromElmRegister} = createElmMiddleware(
+const {toElmMiddleware, subscribeToElm} = createElmMiddleware(
   Elm.Reducer.worker(elmReducerInitialState) //Reducer is the name of your exported elm module
 )
 
@@ -20,7 +20,7 @@ const store = createStore(reducer, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ))
 
-fromElmRegister(store)
+subscribeToElm(store)
 
 ReactDOM.render(
   <Provider store={store}>

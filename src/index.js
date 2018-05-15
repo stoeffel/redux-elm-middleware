@@ -29,7 +29,7 @@ const createElmMiddleware = elmModule => {
     return next(action)
   }
 
-  const fromElmRegister = store => {
+  const subscribeToElm = store => {
     if (elmOutPortReady(elmModule)) {
       elmModule.ports[subscriptionPort].subscribe(
         ([action, nextState]) => {
@@ -42,7 +42,7 @@ const createElmMiddleware = elmModule => {
     }
   }
 
-  return {toElmMiddleware, fromElmRegister}
+  return {toElmMiddleware, subscribeToElm}
 }
 
 // default export
