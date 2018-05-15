@@ -8,6 +8,11 @@ import Json.Encode exposing (..)
 import Json.Decode exposing (..)
 
 
+{-| the Elm middleware will transform the action.type-s to camel case
+Ex with an action like :
+{ type : "ASYNC_INCREMENT" }
+will be sent to the "asyncIncrement" port
+-}
 port increment : (Json.Encode.Value -> msg) -> Sub msg
 
 
@@ -80,7 +85,7 @@ modelToRedux { modelValue, modelCount } =
     object
         [ ( "value", Json.Encode.int modelValue )
         , ( "count", Json.Encode.int modelCount )
-        , ( "casdount", Json.Encode.int modelCount )
+        , ( "randomStuff", Json.Encode.int modelCount )
         ]
 
 
