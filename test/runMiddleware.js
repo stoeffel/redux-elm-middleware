@@ -7,7 +7,7 @@ describe('Run', () => {
   before(bro.newBrowser);
 
   it('should be a function', () => {
-    assert.equal(typeof createMiddleware({}).run, 'function')
+    assert.equal(typeof createMiddleware({}).fromElmRegister, 'function')
   })
 
   it('should subscribe to outgoing elm port', () => {
@@ -36,8 +36,8 @@ describe('Run', () => {
       type: '@@elm/Increment',
       payload: { value: 5 }
     }
-    createMiddleware(elm).run(store)
-    createMiddleware(noPortElm).run(store)
+    createMiddleware(elm).fromElmRegister(store)
+    createMiddleware(noPortElm).fromElmRegister(store)
     assert.deepEqual(
       spy.getCall(0).args[0],
       expectedAction
