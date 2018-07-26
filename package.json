@@ -1,6 +1,6 @@
 {
   "name": "@cureous/redux-elm-middleware",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "Elm middleware for redux. Forked from [stoeffel/redux-elm-middleware](https://github.com/stoeffel/redux-elm-middleware)",
   "main": "index.js",
   "scripts": {
