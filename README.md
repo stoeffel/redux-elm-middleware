@@ -31,8 +31,7 @@ You will need to add the following to you `elm-package.json`
 ### Setup Redux Middleware
 
 ```js
-import createElmMiddleware from 'redux-elm-middleware'
-import { reducer as elmReducer } from 'redux-elm-middleware'
+import createElmMiddleware, { reducer as elmReducer } from '@cureous/redux-elm-middleware'
 
 // Import your Elm Reducer
 import Elm from '../build/elm'
