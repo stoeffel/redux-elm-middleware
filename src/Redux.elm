@@ -40,9 +40,23 @@ program app =
 
         wrap update msg model =
             reducer msg <| update msg model
+
+        ( initModel, initCmd ) =
+            app.init
+
+        initReduxCmd =
+            elmToRedux ( "INIT", app.encode initModel )
+
+        init =
+            ( initModel
+            , Cmd.batch
+                [ initCmd
+                , initReduxCmd
+                ]
+            )
     in
         Platform.program
-            { init = app.init
+            { init = init
             , update = wrap app.update
             , subscriptions = app.subscriptions
             }
@@ -70,9 +84,23 @@ programWithFlags app =
 
         wrap update msg model =
             reducer msg <| update msg model
+
+        ( initModel, initCmd ) =
+            app.init
+
+        initReduxCmd =
+            elmToRedux ( "INIT", app.encode initModel )
+
+        init =
+            ( initModel
+            , Cmd.batch
+                [ initCmd
+                , initReduxCmd
+                ]
+            )
     in
         Platform.programWithFlags
-            { init = app.init
+            { init = init
             , update = wrap app.update
             , subscriptions = app.subscriptions
             }
