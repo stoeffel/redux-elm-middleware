@@ -2,28 +2,25 @@
 
 > Elm middleware for redux :sparkles:
 
-<img src="https://cdn.rawgit.com/stoeffel/redux-elm-middleware/v017/logo/logo.svg" alt="logo" width="250" height="252">
-
-[![Build Status](https://travis-ci.org/stoeffel/redux-elm-middleware.svg?branch=master)](https://travis-ci.org/stoeffel/redux-elm-middleware)
-[![codecov](https://codecov.io/gh/stoeffel/redux-elm-middleware/branch/master/graph/badge.svg)](https://codecov.io/gh/stoeffel/redux-elm-middleware)
-[![Dependency Status](https://david-dm.org/stoeffel/redux-elm-middleware.svg)](https://david-dm.org/stoeffel/redux-elm-middleware)
-[![npm version](https://badge.fury.io/js/redux-elm-middleware.svg)](https://badge.fury.io/js/redux-elm-middleware)
-
 > **NOTE**: This is a forked version of the original package. The reason behind forking is to provide better and faster support for this package, including bug fixes and improvements.
 
 ## Installation
 
-You need to install redux-elm-middleware for js and elm.
+You need to install `redux-elm-middleware` for JS and Elm.
 
 ```bash
-$ npm i redux-elm-middleware -S
+$ npm i -S @cureous/redux-elm-middleware
 ```
 
-Redux-elm-middleware is currently only published to npm.
-You will need to add the following to you `elm-package.json`
+`redux-elm-middleware` is currently only published to npm. You will need to add
+the following to your `elm-package.json`:
 
 ```json
-  "source-directories": ["node_modules/redux-elm-middleware/src", ...]
+  "source-directories": [
+    ".",
+    "node_modules/@cureous/redux-elm-middleware/src",
+    ...
+  ]
 ```
 
 ## Usage
@@ -31,44 +28,65 @@ You will need to add the following to you `elm-package.json`
 ### Setup Redux Middleware
 
 ```js
-import createElmMiddleware, { reducer as elmReducer } from '@cureous/redux-elm-middleware'
+import createElmMiddleware, { reducer as elmReducer } from '@cureous/redux-elm-middleware';
 
 // Import your Elm Reducer
-import Elm from '../build/elm'
+import Elm from './Reducer.elm';
 
 const reducer = combineReducers({
   elm: elmReducer
-  // ...middlewares
-})
+  // ...reducers
+});
 
-
-// create a worker of your elm reducer
+// create a worker of your Elm reducer
 const elmStore = Elm.Reducer.worker();
 
 // create the middleware
-const { run, elmMiddleware } = createElmMiddleware(elmStore)
+const { run, elmMiddleware } = createElmMiddleware(elmStore);
 
-// create the redux store and pass the elmMiddleware
+// create the Redux store and pass the elmMiddleware
 const store = createStore(reducer, {}, compose(
   applyMiddleware(elmMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
-// you need to run the elm middleware and pass the redux store
+// you need to run the elm middleware and pass the Redux store
 run(store)
+```
+
+Since v6.0.0, `redux-elm-middleware` will dispatch actions that correspond to
+external ports.
+
+Example:
+
+Using such a port in Reducer:
+
+```elm
+port externalCmd : String -> Cmd msg
+```
+
+Will result in dispatching the following action:
+
+```json
+{
+    "type": "@@elm.out/EXTERNAL_CMD",
+    "payload": ""
+}
 ```
 
 #### Elm root reducer
 
-The root reducer from redux-elm-middleware simply takes all actions from your elm reducers and returns the payload as the next state.
+The root reducer from `redux-elm-middleware` simply takes all actions from your
+elm reducers and returns the payload as the next state.
 
-The new model returned in your elm reducers update function is dispatched as a new action to the redux store.
+The new model returned in your elm reducers update function is dispatched as a
+new action to the Redux store.
 
-f.e.
+E.g.
 
 ```js
 {
-  type: '@@elm/Increment',
+  type: '@@elm.in/Increment',
   payload: {
     counter: 3
   }
@@ -78,7 +96,8 @@ f.e.
 
 ### Creating a Reducer in Elm
 
-A reducer in elm looks like a normal [TEA](https://github.com/evancz/elm-architecture-tutorial) module without the view.
+A reducer in Elm looks like a normal [TEA](https://github.com/evancz/elm-architecture-tutorial) module without the view.
+
 ```elm
 port module Reducer exposing (Model, Msg, init, update, subscriptions) -- Name of the module must match the worker
 
@@ -148,25 +167,10 @@ main =
         }
 ```
 
-## Motivation
-
-* write bulletproof businesslogic
-* handle state and effects
-  * pure
-  * in one place
-  * with a safetynet
-* still have the rich react/redux ecosystem at your paws
-  * components
-  * middlewares
-    * routing
-    * persistent state (localstorage)
-    * offline support
-    * ui state ( redux-ui )
-* sneak a nice functional language into your projects
-* don't have to commit 100% to it
-* slowly convert a redux/react app into elm
-
 ## Running the Example
+
+> **NOTE**: Example is not fully updated to show all features of the forked
+version.
 
 * `npm install`
 * `npm run example`

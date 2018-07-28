@@ -4,11 +4,15 @@ port module Redux exposing (program, programWithFlags)
 @docs program
 -}
 
-import Platform
 import Json.Encode as Json
+import Platform
 
 
 port elmToRedux : ( String, Json.Value ) -> Cmd msg
+
+
+initActionType =
+    "init"
 
 
 {-| Creates a [Program](http://package.elm-lang.org/packages/elm-lang/core/4.0.0/Platform#Program) that defines how your reducer works. This is a convinient wrapper arround [Html.App.programm](http://package.elm-lang.org/packages/elm-lang/html/1.0.0/Html-App#program).
@@ -45,7 +49,7 @@ program app =
             app.init
 
         initReduxCmd =
-            elmToRedux ( "INIT", app.encode initModel )
+            elmToRedux ( initActionType, app.encode initModel )
 
         init =
             ( initModel
@@ -55,11 +59,11 @@ program app =
                 ]
             )
     in
-        Platform.program
-            { init = init
-            , update = wrap app.update
-            , subscriptions = app.subscriptions
-            }
+    Platform.program
+        { init = init
+        , update = wrap app.update
+        , subscriptions = app.subscriptions
+        }
 
 
 programWithFlags :
@@ -85,13 +89,14 @@ programWithFlags app =
         wrap update msg model =
             reducer msg <| update msg model
 
-        ( initModel, initCmd ) =
-            app.init
+        init flags =
+            let
+                ( initModel, initCmd ) =
+                    app.init flags
 
-        initReduxCmd =
-            elmToRedux ( "INIT", app.encode initModel )
-
-        init =
+                initReduxCmd =
+                    elmToRedux ( initActionType, app.encode initModel )
+            in
             ( initModel
             , Cmd.batch
                 [ initCmd
@@ -99,8 +104,8 @@ programWithFlags app =
                 ]
             )
     in
-        Platform.programWithFlags
-            { init = init
-            , update = wrap app.update
-            , subscriptions = app.subscriptions
-            }
+    Platform.programWithFlags
+        { init = init
+        , update = wrap app.update
+        , subscriptions = app.subscriptions
+        }
