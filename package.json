@@ -45,9 +45,10 @@
   "bugs": {
     "url": "https://github.com/cureous/redux-elm-middleware/issues"
   },
+  "private": false,
   "homepage": "https://github.com/cureous/redux-elm-middleware#readme",
   "dependencies": {
-    "camelcase": "3.0.0"
+    "casex": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.15.2",
