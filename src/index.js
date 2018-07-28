@@ -3,7 +3,13 @@ import casex from 'casex';
 const camelCase = text => casex(text.toLowerCase(), 'caSe')
 const upperSnakeCase = text => casex(text, 'CA_SE')
 
-export const ELM = '@@elm'
+// Namespace of action types that produce new state in elm and require
+// updating Redux store.
+export const ELM_IN = '@@elm.in'
+
+// Namespace of action types that were produced by Elm Reducer and require
+// handling them in JS (Redux middlewares, reducers).
+export const ELM_OUT = '@@elm.out'
 
 const createElmMiddleware = (elm) => {
     const elmMiddleware = ({dispatch}) => next => action => {
@@ -20,26 +26,27 @@ const createElmMiddleware = (elm) => {
     }
 
     const run = store => {
-        if (elm && elm.ports) {
-            if (elm.ports.elmToRedux) {
-                elm.ports.elmToRedux.subscribe(([action, payload]) => {
-                    const [actionType, ...rest] = action.split(' ')
-                    store.dispatch({
-                        type: `${ELM}/${actionType}`,
-                        payload
-                    })
-                })
-            }
+        if (elm && elm.ports && typeof elm.ports === 'object') {
             Object.keys(elm.ports).forEach(portName => {
-                if (typeof elm.ports[portName].subscribe === 'function' &&
-                    portName !== 'elmToRedux') {
-                    elm.ports[portName].subscribe(payload => {
-                        const actionType = upperSnakeCase(portName)
-                        store.dispatch({
-                            type: `${ELM}/${actionType}`,
-                            payload
+                if (typeof elm.ports[portName].subscribe === 'function') {
+                    if (portName === 'elmToRedux') {
+                        // Sync Elm Reducer model with Redux store
+                        elm.ports.elmToRedux.subscribe(([action, payload]) => {
+                            const [ actionType, ...rest ] = action.split(' ')
+                            store.dispatch({
+                                type: `${ ELM_IN }/${ upperSnakeCase(actionType) }`,
+                                payload
+                            })
                         })
-                    })
+                    } else {
+                        // Dispatch actions sent from Elm Reducer to Redux store
+                        elm.ports[portName].subscribe(payload => {
+                            store.dispatch({
+                                type: `${ ELM_OUT }/${ upperSnakeCase(portName) }`,
+                                payload
+                            })
+                        })
+                    }
                 }
             })
         }
@@ -51,8 +58,9 @@ const createElmMiddleware = (elm) => {
 export default createElmMiddleware
 
 export const createElmReducer = (init) => (state = init, action) => {
-    const [elmAction, type] = action.type.split('/')
-    if (elmAction === ELM) {
+    const [ actionNameSpace, type ] = action.type.split('/')
+
+    if (actionNameSpace === ELM_IN) {
         return action.payload
     }
 
