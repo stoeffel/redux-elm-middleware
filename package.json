@@ -59,7 +59,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.7.2",
-    "codecov": "^1.0.1",
+    "codecov": "^3.6.5",
     "elm": "^0.18.0",
     "elm-live": "^2.2.1",
     "jsdom-test-browser": "^4.0.2",
