@@ -1,15 +1,15 @@
 {
-  "name": "redux-elm-middleware",
-  "version": "4.0.0",
-  "description": "Elm middleware for redux",
+  "name": "@cureous/redux-elm-middleware",
+  "version": "6.1.0",
+  "description": "Elm middleware for redux. Forked from [stoeffel/redux-elm-middleware](https://github.com/stoeffel/redux-elm-middleware)",
   "main": "index.js",
   "scripts": {
     "test": "nyc --r html mocha --require babel-core/register",
     "build": "babel src --out-dir .",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "release:major": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment major",
-    "release:minor": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment minor",
-    "release:patch": "npm run build && xyz --repo git@github.com:stoeffel/redux-elm-middleware.git --increment patch",
+    "release:major": "npm run build && xyz --repo git@github.com:cureous/redux-elm-middleware.git --increment major",
+    "release:minor": "npm run build && xyz --repo git@github.com:cureous/redux-elm-middleware.git --increment minor",
+    "release:patch": "npm run build && xyz --repo git@github.com:cureous/redux-elm-middleware.git --increment patch",
     "example": "npm-run-all --parallel serve elm",
     "serve": "cd examples && webpack-dev-server",
     "elm": "cd examples && npm run elm:install && elm-live src/Reducer.elm --output build/elm.js",
@@ -38,19 +38,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stoeffel/redux-elm-middleware.git"
+    "url": "git+https://github.com/cureous/redux-elm-middleware.git"
   },
   "author": "Christoph Hermann",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stoeffel/redux-elm-middleware/issues"
+    "url": "https://github.com/cureous/redux-elm-middleware/issues"
   },
-  "homepage": "https://github.com/stoeffel/redux-elm-middleware#readme",
+  "private": false,
+  "homepage": "https://github.com/cureous/redux-elm-middleware#readme",
   "dependencies": {
-    "camelcase": "3.0.0"
+    "casex": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.15.2",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.7.7",
     "babel-eslint": "^6.0.3",
     "babel-loader": "^6.2.4",
@@ -65,7 +68,7 @@
     "jsdom-test-browser": "^4.0.2",
     "mocha": "^2.4.5",
     "npm-run-all": "^3.0.0",
-    "nyc": "^8.3.0",
+    "nyc": "^8.4.0",
     "ramda": "^0.21.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
